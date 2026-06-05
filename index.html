@@ -206,9 +206,52 @@
         <!-- SEZIONE 2: SCENARI (GIOCO SIMULATORE) -->
         <section id="sec-simulator" class="view-section">
             
-            <!-- Schermata Scelta Target (Spostata dalla Home) -->
-            <div id="target-selection-screen" class="target-selection-screen glass-panel">
-                <h3 class="selector-heading">Scegli il tuo percorso:</h3>
+            <!-- Schermata Scelta Gioco -->
+            <div id="game-mode-selection-screen" class="game-mode-selection-screen glass-panel">
+                <h3 class="selector-heading">Scegli la tua attività:</h3>
+                <p class="scenario-selection-subtitle">Mettiti alla prova con due modalità completamente diverse.</p>
+                <div class="cards-grid" style="margin-top: 1.5rem;">
+                    <!-- Card Simulatore -->
+                    <div class="selection-card game-card" id="card-play-scenarios">
+                        <div class="card-icon">
+                            <svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M20 30 C35 27 65 27 80 30 C90 32 93 42 90 55 C86 72 75 80 65 74 C58 69 42 69 35 74 C25 80 14 72 10 55 C7 42 10 32 20 30 Z" />
+                              <path d="M20 50 L32 50 M26 44 L26 56" stroke-width="5" />
+                              <circle cx="70" cy="46" r="3" fill="currentColor" stroke="none" />
+                              <circle cx="78" cy="54" r="3" fill="currentColor" stroke="none" />
+                              <circle cx="44" cy="42" r="2.5" fill="currentColor" stroke="none" />
+                              <circle cx="56" cy="42" r="2.5" fill="currentColor" stroke="none" />
+                              <path d="M47 50 Q50 54 53 50" stroke-width="4" />
+                            </svg>
+                        </div>
+                        <h3>Empatia in Gioco</h3>
+                        <p>Affronta scenari reali a bivi, esplorando la comunicazione e le dinamiche interpersonali.</p>
+                        <span class="btn-primary">Gioca ➔</span>
+                    </div>
+                    <!-- Card Miti -->
+                    <div class="selection-card game-card" id="card-play-myths">
+                        <div class="card-icon">
+                            <svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M20 20 C40 15 60 15 80 20 C80 45 75 70 50 85 C25 70 20 45 20 20 Z" fill="var(--accent-cyan)" opacity="0.3" />
+                              <path d="M20 20 C40 15 60 15 80 20 C80 45 75 70 50 85 C25 70 20 45 20 20 Z" />
+                              <path d="M35 50 L45 60 L65 40" stroke-width="7" />
+                              <circle cx="44" cy="42" r="2.5" fill="currentColor" stroke="none" />
+                              <circle cx="56" cy="42" r="2.5" fill="currentColor" stroke="none" />
+                            </svg>
+                        </div>
+                        <h3>Mito o Realtà?</h3>
+                        <p>Sfida te stesso nel riconoscere le bufale e le verità scientifiche su salute e sessualità.</p>
+                        <span class="btn-primary">Sfida i Miti ➔</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schermata Scelta Target (Nascosta di default) -->
+            <div id="target-selection-screen" class="target-selection-screen glass-panel hidden">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; width: 100%; flex-wrap: wrap; gap: 10px;">
+                    <h3 class="selector-heading" style="margin-bottom:0;">Scegli il tuo percorso:</h3>
+                    <button class="btn-secondary" id="btn-back-to-games" style="padding: 0.5rem 1rem; font-size: 0.85rem;">⬅ Cambia Gioco</button>
+                </div>
                 <p class="scenario-selection-subtitle">Seleziona la fascia d'età e le tematiche che desideri affrontare per iniziare a giocare.</p>
                 <div class="cards-grid" style="margin-top: 1.5rem;">
                     <!-- Card Giovani -->
@@ -240,6 +283,60 @@
                         <p>Desiderio, fantasie, comunicazione intima, consenso avanzato e la complessità delle relazioni.</p>
                         <span class="btn-primary">Entra ➔</span>
                     </div>
+                </div>
+            </div>
+
+            <!-- Schermata Gioco Miti -->
+            <div id="myth-game-screen" class="myth-game-screen glass-panel hidden">
+                <div class="myth-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; width: 100%; flex-wrap: wrap; gap: 10px;">
+                    <button class="btn-secondary" id="btn-back-to-games-myths" style="padding: 0.5rem 1rem; font-size: 0.85rem;">⬅ Cambia Gioco</button>
+                    <div class="quiz-score-badge" style="margin-left: auto;">Punti: <span id="myth-score">0</span></div>
+                </div>
+                
+                <!-- Struttura Flip Card 3D -->
+                <div class="flip-card-container">
+                    <div class="flip-card" id="myth-card">
+                        <div class="flip-card-inner">
+                            <!-- Fronte della Carta -->
+                            <div class="flip-card-front glass-panel">
+                                <span class="quiz-badge" id="myth-progress">Affermazione 1 di 10</span>
+                                <h3 id="myth-text">Testo dell'affermazione...</h3>
+                                <p class="myth-prompt-text">È un mito o una realtà scientifica?</p>
+                                <div class="myth-action-buttons">
+                                    <button class="myth-btn btn-myth" id="btn-choice-myth">MITO ❌</button>
+                                    <button class="myth-btn btn-reality" id="btn-choice-reality">VERITÀ  </button>
+                                </div>
+                            </div>
+                            <!-- Retro della Carta -->
+                            <div class="flip-card-back glass-panel">
+                                <div class="result-indicator" id="myth-result-indicator">GIUSTO!</div>
+                                <h4 id="myth-back-title">La Spiegazione</h4>
+                                <p id="myth-back-explanation">Spiegazione qui...</p>
+                                <button class="btn-primary" id="btn-next-myth">Prossima ➔</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schermata Risultati Gioco Miti -->
+            <div id="myth-game-results" class="myth-game-results glass-panel hidden">
+                <div class="quiz-result-icon" id="myth-result-icon" style="display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem;">
+                    <!-- Icona del risultato dinamica -->
+                </div>
+                <h2 id="myth-result-title" style="margin-top: 1rem; font-size: 2rem; text-align: center;">Titolo Risultato</h2>
+                <p id="myth-result-subtitle" class="section-subtitle" style="margin-top: 0.5rem; max-width: 500px; margin-left: auto; margin-right: auto; text-align: center;">
+                    Descrizione del risultato.
+                </p>
+                
+                <div class="score-display-box glass-panel" style="max-width: 250px; margin: 2rem auto; padding: 1.5rem; border-radius: 15px; text-align: center;">
+                    <span style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 0.5rem;">Miti Debunkati</span>
+                    <span id="myth-final-score" style="font-size: 2.5rem; font-weight: 800; color: var(--accent-cyan);">0/10</span>
+                </div>
+
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                    <button class="btn-primary" id="btn-restart-myth-game">Gioca Ancora ➔</button>
+                    <button class="btn-secondary" id="btn-myths-to-games">Cambia Gioco</button>
                 </div>
             </div>
 

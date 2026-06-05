@@ -1677,6 +1677,12 @@ const badgesData = [
         title: "Cervellone di Sexsapiens",
         description: "Rispondi correttamente a 10 domande su 10 nel Grande Quiz.",
         icon: '<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M30 35 L40 20 L50 30 L60 20 L70 35 Z" fill="var(--accent-magenta)" opacity="0.3" /><path d="M50 75 C40 75 30 75 25 65 C20 58 22 50 28 46 C25 40 30 30 40 30 C45 30 48 35 50 40" /><path d="M50 75 C60 75 70 75 75 65 C80 58 78 50 72 46 C75 40 70 30 60 30 C55 30 52 35 50 40" /><path d="M50 40 L50 75" stroke-width="3" stroke-dasharray="2 3" /><circle cx="40" cy="58" r="2.5" fill="currentColor" stroke="none" /><circle cx="60" cy="58" r="2.5" fill="currentColor" stroke="none" /><path d="M44 65 Q50 69 56 65" stroke-width="4" /></svg>'
+    },
+    {
+        id: "myth_debunker",
+        title: "Debunker di Falsi Miti",
+        description: "Rispondi correttamente a 10 affermazioni su 10 nel gioco 'Mito o Realtà?'.",
+        icon: '<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20 C40 15 60 15 80 20 C80 45 75 70 50 85 C25 70 20 45 20 20 Z" fill="var(--accent-cyan)" opacity="0.3" /><path d="M20 20 C40 15 60 15 80 20 C80 45 75 70 50 85 C25 70 20 45 20 20 Z" /><path d="M35 50 L45 60 L65 40" stroke-width="7" /></svg>'
     }
 ];
 
@@ -1873,6 +1879,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupGlossary();
     setupTargetSelectors();
     initStandaloneQuizListeners();
+    initMythGameListeners();
     
     // Rendi visibili i trofei sulla home all'avvio
     renderTrophies();
@@ -1971,16 +1978,7 @@ function showSection(sectionId) {
 
     // Flusso selettore target spostato in Gioco (simulator)
     if (sectionId === "simulator") {
-        if (!appState.selectedAudience) {
-            document.getElementById("target-selection-screen").classList.remove("hidden");
-            document.getElementById("scenario-selection-screen").classList.add("hidden");
-            document.getElementById("simulator-layout-area").classList.add("hidden");
-        } else {
-            document.getElementById("target-selection-screen").classList.add("hidden");
-            document.getElementById("scenario-selection-screen").classList.remove("hidden");
-            document.getElementById("simulator-layout-area").classList.add("hidden");
-            renderScenarioSelectionList(appState.selectedAudience);
-        }
+        resetSimulatorViews();
     }
 
     // Se entriamo nel glossario, rinfreschiamo la lista
@@ -3423,5 +3421,292 @@ function showStandaloneResults() {
     iconBox.innerHTML = iconSVG;
     titleBox.textContent = titleText;
     subtitleBox.textContent = subtitleText;
+}
+
+// ==========================================================================
+// GIOCO MITO O REALTÀ (THE DEBUNKER)
+// ==========================================================================
+const mythsData = [
+    {
+        myth: "Il coito interrotto (saltare fuori prima) è un metodo contraccettivo sicuro e privo di rischi.",
+        isMyth: true,
+        explanation: "Falso. Il liquido pre-eiaculatorio può contenere spermatozoi attivi capaci di fecondare, e può trasmettere infezioni sessualmente trasmissibili (IST). Non è considerato in alcun modo un metodo contraccettivo sicuro."
+    },
+    {
+        myth: "Le infezioni sessualmente trasmissibili (IST) presentano sempre sintomi visibili.",
+        isMyth: true,
+        explanation: "Falso. Moltissime infezioni (come clamidia, gonorrea, sifilide o l'HPV) possono decorrere in modo del tutto asintomatico per mesi o anni. L'unico modo per essere sicuri è effettuare screening clinici periodici."
+    },
+    {
+        myth: "La pillola del giorno dopo è un metodo contraccettivo abortivo.",
+        isMyth: true,
+        explanation: "Falso. La contraccezione d'emergenza agisce bloccando o ritardando l'ovulazione per impedire l'incontro tra ovulo e spermatozoo. Non ha alcun effetto abortivo e non funziona se l'impianto dell'ovulo è già avvenuto."
+    },
+    {
+        myth: "È impossibile rimanere incinta durante il ciclo mestruale.",
+        isMyth: true,
+        explanation: "Falso. Anche se le probabilità sono più basse, gli spermatozoi possono sopravvivere all'interno del corpo femminile fino a 5 giorni e l'ovulazione può essere irregolare o anticipata, portando a un concepimento."
+    },
+    {
+        myth: "L'uso del doppio preservativo (uno sopra l'altro) raddoppia la protezione.",
+        isMyth: true,
+        explanation: "Falso. Lo sfregamento continuo tra i due preservativi in lattice aumenta enormemente la frizione, facilitando la rottura di entrambi. Usane sempre e solo uno alla volta per garantire l'efficacia."
+    },
+    {
+        myth: "La prima volta per una donna deve essere necessariamente dolorosa e causare sanguinamento.",
+        isMyth: true,
+        explanation: "Falso. Il dolore e il sanguinamento non sono inevitabili; dipendono dall'elasticità dell'imene, dal livello di eccitazione, dalla rilassatezza e da una corretta lubrificazione. La sensibilità, la lentezza e il rispetto reciproco prevengono il dolore."
+    },
+    {
+        myth: "La pillola contraccettiva protegge dalle infezioni sessualmente trasmissibili (IST).",
+        isMyth: true,
+        explanation: "Falso. La pillola previene unicamente gravidanze indesiderate bloccando l'ovulazione, ma non offre alcuna barriera contro agenti patogeni. Solo i contraccettivi di barriera (preservativo, dental dam) proteggono dalle IST."
+    },
+    {
+        myth: "Il lavaggio vaginale interno dopo un rapporto previene gravidanze e IST.",
+        isMyth: true,
+        explanation: "Falso. Le lavande vaginali interne non offrono alcuna protezione (gli spermatozoi salgono nell'utero in pochissimi secondi) e alterano il pH naturale della flora batterica, aumentando la vulnerabilità a infezioni."
+    },
+    {
+        myth: "La masturbazione frequente causa cecità, stanchezza cronica o problemi fisici.",
+        isMyth: true,
+        explanation: "Falso. Si tratta di una credenza repressiva priva di fondamento scientifico. La masturbazione è una pratica autoerotica sana e naturale che aiuta a ridurre lo stress e a conoscere meglio i propri confini di piacere."
+    },
+    {
+        myth: "La PrEP (profilassi pre-esposizione) protegge da tutte le infezioni sessualmente trasmissibili.",
+        isMyth: true,
+        explanation: "Falso. La PrEP è una terapia preventiva mirata esclusivamente a ridurre la trasmissione del virus dell'HIV. Non protegge in alcun modo da sifilide, clamidia, gonorrea o HPV, per le quali serve il preservativo."
+    }
+];
+
+let mythGameState = {
+    myths: [],
+    currentIndex: 0,
+    score: 0,
+    activeAnswerEnabled: true
+};
+
+function initMythGameListeners() {
+    // Navigazione tra le schermate
+    const btnPlayScenarios = document.getElementById("card-play-scenarios");
+    if (btnPlayScenarios) {
+        btnPlayScenarios.addEventListener("click", () => {
+            playAudioEffect("click");
+            document.getElementById("game-mode-selection-screen").classList.add("hidden");
+            
+            // Ripristina lo schermo di selezione target nel simulatore
+            if (!appState.selectedAudience) {
+                document.getElementById("target-selection-screen").classList.remove("hidden");
+                document.getElementById("scenario-selection-screen").classList.add("hidden");
+            } else {
+                document.getElementById("target-selection-screen").classList.add("hidden");
+                document.getElementById("scenario-selection-screen").classList.remove("hidden");
+                renderScenarioSelectionList(appState.selectedAudience);
+            }
+        });
+    }
+
+    const btnPlayMyths = document.getElementById("card-play-myths");
+    if (btnPlayMyths) {
+        btnPlayMyths.addEventListener("click", () => {
+            playAudioEffect("click");
+            startMythGame();
+        });
+    }
+
+    const btnBackToGames = document.getElementById("btn-back-to-games");
+    if (btnBackToGames) {
+        btnBackToGames.addEventListener("click", () => {
+            playAudioEffect("click");
+            resetSimulatorViews();
+        });
+    }
+
+    const btnBackToGamesMyths = document.getElementById("btn-back-to-games-myths");
+    if (btnBackToGamesMyths) {
+        btnBackToGamesMyths.addEventListener("click", () => {
+            playAudioEffect("click");
+            resetSimulatorViews();
+        });
+    }
+
+    const btnMythsToGames = document.getElementById("btn-myths-to-games");
+    if (btnMythsToGames) {
+        btnMythsToGames.addEventListener("click", () => {
+            playAudioEffect("click");
+            resetSimulatorViews();
+        });
+    }
+
+    // Risposte
+    const btnChoiceMyth = document.getElementById("btn-choice-myth");
+    if (btnChoiceMyth) {
+        btnChoiceMyth.addEventListener("click", () => {
+            if (!mythGameState.activeAnswerEnabled) return;
+            handleMythAnswer(true); // Risponde "è un mito"
+        });
+    }
+
+    const btnChoiceReality = document.getElementById("btn-choice-reality");
+    if (btnChoiceReality) {
+        btnChoiceReality.addEventListener("click", () => {
+            if (!mythGameState.activeAnswerEnabled) return;
+            handleMythAnswer(false); // Risponde "è una realtà"
+        });
+    }
+
+    // Prossimo
+    const btnNext = document.getElementById("btn-next-myth");
+    if (btnNext) {
+        btnNext.addEventListener("click", () => {
+            playAudioEffect("click");
+            
+            // Rimuovi classe di rotazione per far tornare la carta sul fronte prima di cambiare testo
+            const card = document.getElementById("myth-card");
+            card.classList.remove("flipped");
+            
+            // Attendi il tempo del flip all'indietro (0.3s) prima di renderizzare la nuova carta
+            setTimeout(() => {
+                mythGameState.currentIndex++;
+                if (mythGameState.currentIndex < mythGameState.myths.length) {
+                    renderMythCard();
+                } else {
+                    showMythResults();
+                }
+            }, 300);
+        });
+    }
+
+    // Rigioca
+    const btnRestart = document.getElementById("btn-restart-myth-game");
+    if (btnRestart) {
+        btnRestart.addEventListener("click", () => {
+            playAudioEffect("click");
+            startMythGame();
+        });
+    }
+}
+
+function startMythGame() {
+    mythGameState.currentIndex = 0;
+    mythGameState.score = 0;
+    
+    // Copia e mescola i miti
+    mythGameState.myths = shuffleArray([...mythsData]);
+
+    document.getElementById("game-mode-selection-screen").classList.add("hidden");
+    document.getElementById("myth-game-screen").classList.remove("hidden");
+    document.getElementById("myth-game-results").classList.add("hidden");
+
+    // Assicurati che non sia flippata
+    document.getElementById("myth-card").classList.remove("flipped");
+
+    renderMythCard();
+}
+
+function renderMythCard() {
+    mythGameState.activeAnswerEnabled = true;
+    const currentM = mythGameState.myths[mythGameState.currentIndex];
+
+    // Popola fronte
+    document.getElementById("myth-progress").textContent = `Affermazione ${mythGameState.currentIndex + 1} di ${mythGameState.myths.length}`;
+    document.getElementById("myth-score").textContent = mythGameState.score;
+    document.getElementById("myth-text").textContent = currentM.myth;
+
+    // Resetta classi sul retro
+    const cardBack = document.querySelector(".flip-card-back");
+    cardBack.classList.remove("correct-border", "incorrect-border");
+}
+
+function handleMythAnswer(userSaysItIsAMyth) {
+    mythGameState.activeAnswerEnabled = false;
+    const currentM = mythGameState.myths[mythGameState.currentIndex];
+    
+    // Controlla se la risposta è corretta (l'affermazione è un mito e l'utente ha detto Mito, oppure l'affermazione è verità e l'utente ha detto Verità)
+    const isCorrect = (currentM.isMyth === userSaysItIsAMyth);
+
+    const indicator = document.getElementById("myth-result-indicator");
+    const cardBack = document.querySelector(".flip-card-back");
+
+    if (isCorrect) {
+        mythGameState.score++;
+        playAudioEffect("correct");
+        indicator.textContent = "ESATTO! 🎉";
+        indicator.className = "result-indicator correct-text";
+        cardBack.classList.add("correct-border");
+    } else {
+        playAudioEffect("incorrect");
+        indicator.textContent = "SBAGLIATO! ❌";
+        indicator.className = "result-indicator incorrect-text";
+        cardBack.classList.add("incorrect-border");
+    }
+
+    // Popola il retro
+    document.getElementById("myth-back-title").textContent = currentM.isMyth ? "È UN MITO DA DEBUNKARE:" : "È UNA REALTÀ SCIENTIFICA:";
+    document.getElementById("myth-back-explanation").textContent = currentM.explanation;
+
+    // Aggiorna punteggio in alto all'istante
+    document.getElementById("myth-score").textContent = mythGameState.score;
+
+    // Esegui flip 3D
+    const card = document.getElementById("myth-card");
+    card.classList.add("flipped");
+}
+
+function showMythResults() {
+    document.getElementById("myth-game-screen").classList.add("hidden");
+    document.getElementById("myth-game-results").classList.remove("hidden");
+
+    const score = mythGameState.score;
+    const total = mythGameState.myths.length;
+    const ratio = score / total;
+
+    document.getElementById("myth-final-score").textContent = `${score}/${total}`;
+
+    const iconBox = document.getElementById("myth-result-icon");
+    const titleBox = document.getElementById("myth-result-title");
+    const subtitleBox = document.getElementById("myth-result-subtitle");
+
+    let iconSVG = "";
+    let titleText = "";
+    let subtitleText = "";
+
+    if (ratio === 1) {
+        // Scudo con stella o cuore per punteggio perfetto
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-cyan);"><path d="M20 20 C40 15 60 15 80 20 C80 45 75 70 50 85 C25 70 20 45 20 20 Z" fill="var(--accent-cyan)" opacity="0.3" /><path d="M20 20 C40 15 60 15 80 20 C80 45 75 70 50 85 C25 70 20 45 20 20 Z" /><path d="M35 50 L45 60 L65 40" stroke-width="7" /></svg>`;
+        titleText = "Debunker Supremo!";
+        subtitleText = "Incredibile! Hai smascherato ogni singolo falso mito. La tua conoscenza scientifica e di prevenzione è impeccabile.";
+        
+        // Sblocca badge
+        appState.unlockedBadges.add("myth_debunker");
+        saveStateToLocalStorage();
+        renderTrophies();
+    } else if (ratio >= 0.7) {
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-magenta);"><path d="M50 12 L62 38 L90 40 L68 58 L75 85 L50 70 L25 85 L32 58 L10 40 L38 38 Z" /><circle cx="42" cy="48" r="3" fill="currentColor" stroke="none" /><circle cx="58" cy="48" r="3" fill="currentColor" stroke="none" /><path d="M46 56 Q50 61 54 56" stroke-width="4" /></svg>`;
+        titleText = "Ottimo cacciatore di bufale!";
+        subtitleText = "Hai un ottimo intuito scientifico. Pochi falsi miti sono riusciti a ingannarti. Continua così!";
+    } else if (ratio >= 0.5) {
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-violet);"><path d="M50 85 C65 85 75 75 75 60 C75 42 62 30 55 15 C52 25 45 32 38 38 C30 45 25 55 25 65 C25 76 35 85 50 85 Z" /><circle cx="44" cy="60" r="2.5" fill="currentColor" stroke="none" /><circle cx="56" cy="60" r="2.5" fill="currentColor" stroke="none" /><path d="M47 66 Q50 70 53 66" stroke-width="4" /></svg>`;
+        titleText = "Buona consapevolezza!";
+        subtitleText = "Riconosci gran parte dei falsi miti, ma alcune credenze comuni ti hanno tratto in inganno. Riprova per migliorare!";
+    } else {
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--text-muted);"><path d="M15 50 L85 50 M15 57 L85 57" stroke-width="4" /><rect x="25" y="30" width="50" height="40" rx="5" /><circle cx="42" cy="45" r="2.5" fill="currentColor" stroke="none" /><circle cx="58" cy="45" r="2.5" fill="currentColor" stroke="none" /><path d="M46 56 Q50 52 54 56" stroke-width="4" /></svg>`;
+        titleText = "Sotto la media!";
+        subtitleText = "I falsi miti sulla sessualità sono molto radicati. Leggere con attenzione le spiegazioni sul retro delle carte ti aiuterà a debunkerli tutti!";
+    }
+
+    iconBox.innerHTML = iconSVG;
+    titleBox.textContent = titleText;
+    subtitleBox.textContent = subtitleText;
+}
+
+function resetSimulatorViews() {
+    document.getElementById("game-mode-selection-screen").classList.remove("hidden");
+    document.getElementById("target-selection-screen").classList.add("hidden");
+    document.getElementById("scenario-selection-screen").classList.add("hidden");
+    document.getElementById("simulator-layout-area").classList.add("hidden");
+    document.getElementById("myth-game-screen").classList.add("hidden");
+    document.getElementById("myth-game-results").classList.add("hidden");
+    document.getElementById("quiz-card").classList.add("hidden");
 }
 
