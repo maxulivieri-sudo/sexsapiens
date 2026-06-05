@@ -384,6 +384,15 @@ const glossaryData = {
     }
 };
 
+// Alias per mappare le forme nominalizzate dei termini (es. asessualità -> asessuale)
+glossaryData["asessualità"] = glossaryData["asessuale"];
+glossaryData["demisessualità"] = glossaryData["demisessuale"];
+glossaryData["bisessualità"] = glossaryData["bisessuale"];
+glossaryData["pansessualità"] = glossaryData["pansessuale"];
+glossaryData["graysessualità"] = glossaryData["graysessuale"];
+glossaryData["omosessualità"] = glossaryData["omosessuale"];
+glossaryData["eterosessualità"] = glossaryData["eterosessuale"];
+
 // DATABASE DEGLI SCENARI (GIOCHI)
 const scenariosData = {
     youth: [
@@ -1662,6 +1671,12 @@ const badgesData = [
         title: "Esploratore delle Relazioni",
         description: "Completa tutti gli 8 scenari educativi disponibili.",
         icon: '<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M25 25 L75 25 C75 45 65 60 50 60 C35 60 25 45 25 25 Z" /><path d="M25 32 C15 32 15 45 25 48" /><path d="M75 32 C85 32 85 45 75 48" /><path d="M50 60 L50 75" stroke-width="6" /><path d="M35 75 C45 75 55 75 65 75" /><path d="M30 82 C42 80 58 80 70 82" /><circle cx="42" cy="38" r="3" fill="currentColor" stroke="none" /><circle cx="58" cy="38" r="3" fill="currentColor" stroke="none" /><path d="M47 46 Q50 50 53 46" stroke-width="4" /></svg>'
+    },
+    {
+        id: "quiz_champion",
+        title: "Cervellone di Sexsapiens",
+        description: "Rispondi correttamente a 10 domande su 10 nel Grande Quiz.",
+        icon: '<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M30 35 L40 20 L50 30 L60 20 L70 35 Z" fill="var(--accent-magenta)" opacity="0.3" /><path d="M50 75 C40 75 30 75 25 65 C20 58 22 50 28 46 C25 40 30 30 40 30 C45 30 48 35 50 40" /><path d="M50 75 C60 75 70 75 75 65 C80 58 78 50 72 46 C75 40 70 30 60 30 C55 30 52 35 50 40" /><path d="M50 40 L50 75" stroke-width="3" stroke-dasharray="2 3" /><circle cx="40" cy="58" r="2.5" fill="currentColor" stroke="none" /><circle cx="60" cy="58" r="2.5" fill="currentColor" stroke="none" /><path d="M44 65 Q50 69 56 65" stroke-width="4" /></svg>'
     }
 ];
 
@@ -1857,6 +1872,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupNavigation();
     setupGlossary();
     setupTargetSelectors();
+    initStandaloneQuizListeners();
     
     // Rendi visibili i trofei sulla home all'avvio
     renderTrophies();
@@ -1970,6 +1986,11 @@ function showSection(sectionId) {
     // Se entriamo nel glossario, rinfreschiamo la lista
     if (sectionId === "glossary") {
         renderGlossaryGrid();
+    }
+    
+    // Se entriamo nella modalità quiz, resetta la schermata iniziale del quiz
+    if (sectionId === "quiz-mode") {
+        resetStandaloneQuizStartScreen();
     }
     
     // Se torniamo in Home, rinfreschiamo i trofei
@@ -2849,8 +2870,188 @@ const quizQuestions = {
             "Fornire supporto e terapia clinica per dubbi, ansie, disfunzioni o benessere intimo."
         ],
         correct: 2
+    },
+    "pansessuale": {
+        question: "Cosa definisce l'orientamento 'Pansessuale'?",
+        options: [
+            "Provare attrazione verso persone indipendentemente dal loro genere o sesso biologico.",
+            "Provare attrazione solo per persone dello stesso genere.",
+            "Astenersi dai rapporti sessuali fino al matrimonio."
+        ],
+        correct: 0
+    },
+    "fantasia sessuale": {
+        question: "Le 'Fantasie Sessuali' sono:",
+        options: [
+            "Desideri che devono necessariamente essere messi in pratica nella realtà.",
+            "Rappresentazioni mentali sane e naturali che possono arricchire l'eccitazione e il piacere.",
+            "Pensieri patologici che indicano problemi relazionali."
+        ],
+        correct: 1
+    },
+    "gioco di ruolo": {
+        question: "Nel contesto dell'intimità, il 'Gioco di Ruolo' (Roleplay) consiste nel:",
+        options: [
+            "Assumere e recitare ruoli concordati consensualmente per esplorare fantasie e desideri.",
+            "Obbligare il partner a interpretare un personaggio contro la sua volontà.",
+            "Giocare a giochi da tavolo durante l'atto sessuale."
+        ],
+        correct: 0
+    },
+    "transgender": {
+        question: "Una persona si definisce 'Transgender' (o Trans) quando:",
+        options: [
+            "La sua identità di genere differisce dal sesso biologico assegnato alla nascita.",
+            "Prova attrazione sessuale per tutti i generi.",
+            "Rifiuta qualsiasi forma di etichetta relazionale."
+        ],
+        correct: 0
+    },
+    "intersessualità": {
+        question: "L'intersessualità descrive variazioni biologiche in cui:",
+        options: [
+            "Una persona si innamora solo di amici stretti.",
+            "Le caratteristiche del corpo (cromosomi, ormoni, genitali) non rientrano nelle tipiche definizioni binarie di maschio o femmina.",
+            "Si sperimenta una completa assenza di identità di genere."
+        ],
+        correct: 1
+    },
+    "genderqueer": {
+        question: "Un'identità di genere 'Genderqueer' si caratterizza per:",
+        options: [
+            "La scelta di non praticare sesso penetrativo.",
+            "Una collocazione al di fuori o in opposizione al binarismo tradicional maschio/femmina.",
+            "L'attrazione romantica verso persone non-binarie."
+        ],
+        correct: 1
+    },
+    "agender": {
+        question: "Cosa esprime una persona che si definisce 'Agender'?",
+        options: [
+            "La totale assenza di attrazione sessuale.",
+            "La tendenza a innamorarsi esclusivamente di persone asessuali.",
+            "L'assenza di un'identità di genere o il sentirsi neutrali rispetto ad essa."
+        ],
+        correct: 2
+    },
+    "disforia di genere": {
+        question: "La 'Disforia di Genere' è definita come:",
+        options: [
+            "Il disagio o sofferenza dovuti all'incongruenza tra il proprio genere percepito e il sesso assegnato alla nascita.",
+            "La paura irrazionale delle persone omosessuali.",
+            "La difficoltà biologica a riprodursi."
+        ],
+        correct: 0
+    },
+    "bisessuale": {
+        question: "Una persona 'Bisessuale' prova attrazione verso:",
+        options: [
+            "Esclusivamente persone non-binarie.",
+            "Più di un genere, non necessariamente allo stesso modo o nello stesso momento.",
+            "Solo persone dello stesso sesso biologico."
+        ],
+        correct: 1
+    },
+    "graysessuale": {
+        question: "La 'Graysessualità' si colloca nello spettro asessuale per descrivere:",
+        options: [
+            "L'attrazione sessuale sperimentata raramente, a bassa intensità o solo in circostanze specifiche.",
+            "L'attrazione esclusiva per persone anziane.",
+            "La preferenza per rapporti sessuali in ambienti poco illuminati."
+        ],
+        correct: 0
+    },
+    "omosessuale": {
+        question: "L'orientamento 'Omosessuale' descrive:",
+        options: [
+            "L'attrazione romantica e sessuale verso persone di genere diverso dal proprio.",
+            "L'attrazione romantica e sessuale verso persone del proprio stesso genere.",
+            "L'assenza di attrazione romantica verso chiunque."
+        ],
+        correct: 1
+    },
+    "eterosessuale": {
+        question: "L'orientamento 'Eterosessuale' descrive:",
+        options: [
+            "L'attrazione romantica e sessuale verso persone di genere diverso dal proprio.",
+            "L'attrazione romantica e sessuale verso persone del proprio stesso genere.",
+            "La capacità di innamorarsi solo dopo un profondo legame mentale."
+        ],
+        correct: 0
+    },
+    "feticismo": {
+        question: "Il 'Feticismo' (Fetish) è caratterizzato da attrazione sessuale focalizzata su:",
+        options: [
+            "Unicamente il volto del partner.",
+            "Oggetti non vivi o parti del corpo non considerate tradizionalmente erogene.",
+            "La negazione totale del contatto fisico."
+        ],
+        correct: 1
+    },
+    "masturbazione": {
+        question: "La masturbazione è una prática:",
+        options: [
+            "Sana e naturale di autoerotismo che aiuta a conoscere il proprio corpo e alleviare lo stress.",
+            "Pericolosa per la salute fisica e mentale a lungo termine.",
+            "Consigliata solo in assenza di un partner stabile."
+        ],
+        correct: 0
+    },
+    "punto g": {
+        question: "La stimolazione del Punto G (o della zona prostatica) fa parte di:",
+        options: [
+            "Prevenzioni oncologiche periodiche obbligatorie.",
+            "Esplorazioni di aree erogene interne capaci di indurre intense sensazioni di piacere.",
+            "Pratiche ginecologiche per testare la fertilità."
+        ],
+        correct: 1
+    },
+    "sex toys": {
+        question: "L'uso dei 'Sex Toys' (giocattoli sessuali) serve a:",
+        options: [
+            "Sostituire completamente e obbligatoriamente il partner nelle relazioni.",
+            "Stimolare le zone erogene individualmente o in coppia, arricchendo l'intimità.",
+            "Curare patologie cliniche dell'apparato riproduttivo."
+        ],
+        correct: 1
+    },
+    "relazione aperta": {
+        question: "In una 'Relazione Aperta', i partner concordano sulla possibilità di:",
+        options: [
+            "Avere rapporti sessuali extra-coppia mantenendo la stabilità romantica, nel consenso di entrambi.",
+            "Tradire il partner di nascosto senza alcuna regola.",
+            "Convivere con più famiglie contemporaneamente all'insaputa del fisco."
+        ],
+        correct: 0
+    },
+    "anarchia relazionale": {
+        question: "L'Anarchia Relazionale sostiene che:",
+        options: [
+            "Le relazioni non debbano avere alcuna regola, portando al caos e al disinteresse reciproco.",
+            "Ogni legame sia unico e co-creato, rifiutando gerarchie precostituite (es. l'amore romantico superiore all'amicizia).",
+            "Si debbano cambiare partner ogni settimana per legge."
+        ],
+        correct: 1
+    },
+    "pap test": {
+        question: "Il Pap Test (e l'HPV Test) sono esami di screening periodici essenziali per:",
+        options: [
+            "Identificare precocemente alterazioni cellulari sul collo dell'utero prevenendo patologie oncologiche.",
+            "Diagnosticare gravidanze indesiderate nelle prime ore.",
+            "Verificare la compatibilità sanguigna dei partner."
+        ],
+        correct: 0
     }
 };
+
+// Alias per mappare le forme nominalizzate anche nel database dei quiz
+quizQuestions["asessualità"] = quizQuestions["asessuale"];
+quizQuestions["demisessualità"] = quizQuestions["demisessuale"];
+quizQuestions["bisessualità"] = quizQuestions["bisessuale"];
+quizQuestions["pansessualità"] = quizQuestions["pansessuale"];
+quizQuestions["graysessualità"] = quizQuestions["graysessuale"];
+quizQuestions["omosessualità"] = quizQuestions["omosessuale"];
+quizQuestions["eterosessualità"] = quizQuestions["eterosessuale"];
 
 let quizState = {
     questions: [],
@@ -3014,5 +3215,213 @@ function renderTrophies() {
         
         trophyGrid.appendChild(item);
     });
+}
+
+// ==========================================================================
+// LOGICA STANDALONE QUIZ MODE
+// ==========================================================================
+let standaloneQuizState = {
+    length: 5,
+    questions: [],
+    currentIndex: 0,
+    score: 0,
+    activeAnswersEnabled: true
+};
+
+function initStandaloneQuizListeners() {
+    // Gestione bottoni selezione lunghezza
+    const lenBtns = document.querySelectorAll(".quiz-len-btn");
+    lenBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            lenBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            standaloneQuizState.length = parseInt(btn.getAttribute("data-len"), 10) || 5;
+            playAudioEffect("click");
+        });
+    });
+
+    // Avvia quiz
+    const btnStart = document.getElementById("btn-start-standalone-quiz");
+    if (btnStart) {
+        btnStart.addEventListener("click", () => {
+            playAudioEffect("click");
+            startStandaloneQuiz();
+        });
+    }
+
+    // Rigiocare
+    const btnRestart = document.getElementById("btn-restart-standalone-quiz");
+    if (btnRestart) {
+        btnRestart.addEventListener("click", () => {
+            playAudioEffect("click");
+            resetStandaloneQuizStartScreen();
+        });
+    }
+
+    // Vai al glossario
+    const btnToGlossary = document.getElementById("btn-quiz-to-glossary");
+    if (btnToGlossary) {
+        btnToGlossary.addEventListener("click", () => {
+            playAudioEffect("click");
+            showSection("glossary");
+        });
+    }
+}
+
+function resetStandaloneQuizStartScreen() {
+    document.getElementById("quiz-mode-start").classList.remove("hidden");
+    document.getElementById("quiz-mode-active").classList.add("hidden");
+    document.getElementById("quiz-mode-results").classList.add("hidden");
+}
+
+function startStandaloneQuiz() {
+    standaloneQuizState.currentIndex = 0;
+    standaloneQuizState.score = 0;
+    standaloneQuizState.questions = [];
+
+    // Otteniamo tutte le chiavi reali di quizQuestions (escludendo gli alias per evitare doppioni)
+    const keys = Object.keys(quizQuestions).filter(k => {
+        return typeof quizQuestions[k] === 'object' && quizQuestions[k] !== null;
+    });
+
+    // Filtriamo per ottenere oggetti univoci
+    const uniqueQuestionsMap = new Map();
+    keys.forEach(k => {
+        uniqueQuestionsMap.set(quizQuestions[k], k);
+    });
+
+    const uniqueQuestions = Array.from(uniqueQuestionsMap.entries()).map(([qObj, key]) => {
+        return {
+            key: key,
+            ...qObj
+        };
+    });
+
+    // Mescola e seleziona il numero richiesto di domande
+    const shuffled = shuffleArray(uniqueQuestions);
+    standaloneQuizState.questions = shuffled.slice(0, standaloneQuizState.length);
+
+    // Mostra lo schermo del quiz attivo
+    document.getElementById("quiz-mode-start").classList.add("hidden");
+    document.getElementById("quiz-mode-active").classList.remove("hidden");
+    document.getElementById("quiz-mode-results").classList.add("hidden");
+
+    renderStandaloneQuestion();
+}
+
+function renderStandaloneQuestion() {
+    standaloneQuizState.activeAnswersEnabled = true;
+    const currentQ = standaloneQuizState.questions[standaloneQuizState.currentIndex];
+
+    // Aggiorna avanzamento e punteggio
+    document.getElementById("standalone-quiz-progress").textContent = `Domanda ${standaloneQuizState.currentIndex + 1} di ${standaloneQuizState.questions.length}`;
+    document.getElementById("standalone-quiz-score").textContent = standaloneQuizState.score;
+    document.getElementById("standalone-quiz-question-text").textContent = currentQ.question;
+
+    const optionsBox = document.getElementById("standalone-quiz-options");
+    optionsBox.innerHTML = "";
+
+    // Applica stagger a cascata delle risposte
+    currentQ.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "quiz-option-btn";
+        btn.textContent = opt;
+        
+        // Stagger animativo
+        btn.style.opacity = "0";
+        btn.style.transform = "translateY(10px)";
+        btn.style.animation = `dialogueSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+        btn.style.animationDelay = `${idx * 0.1}s`;
+
+        btn.addEventListener("click", () => {
+            if (!standaloneQuizState.activeAnswersEnabled) return;
+            handleStandaloneAnswer(idx, currentQ.correct, btn);
+        });
+
+        optionsBox.appendChild(btn);
+    });
+}
+
+function handleStandaloneAnswer(selectedIndex, correctIndex, clickedBtn) {
+    standaloneQuizState.activeAnswersEnabled = false;
+    const optionsBox = document.getElementById("standalone-quiz-options");
+    const buttons = optionsBox.querySelectorAll(".quiz-option-btn");
+
+    if (selectedIndex === correctIndex) {
+        clickedBtn.classList.add("correct");
+        standaloneQuizState.score++;
+        playAudioEffect("correct");
+    } else {
+        clickedBtn.classList.add("incorrect");
+        // Evidenzia quella corretta per fini didattici
+        buttons[correctIndex].classList.add("correct");
+        playAudioEffect("incorrect");
+    }
+
+    // Aggiorna punteggio a video all'istante
+    document.getElementById("standalone-quiz-score").textContent = standaloneQuizState.score;
+
+    // Attendi 1.5 secondi prima di procedere alla prossima domanda o ai risultati
+    setTimeout(() => {
+        standaloneQuizState.currentIndex++;
+        if (standaloneQuizState.currentIndex < standaloneQuizState.questions.length) {
+            renderStandaloneQuestion();
+        } else {
+            showStandaloneResults();
+        }
+    }, 1500);
+}
+
+function showStandaloneResults() {
+    document.getElementById("quiz-mode-active").classList.add("hidden");
+    document.getElementById("quiz-mode-results").classList.remove("hidden");
+
+    const score = standaloneQuizState.score;
+    const total = standaloneQuizState.questions.length;
+    const ratio = score / total;
+
+    document.getElementById("standalone-quiz-final-score").textContent = `${score}/${total}`;
+
+    // Scegli icona e messaggio basato sul punteggio
+    const iconBox = document.getElementById("standalone-quiz-result-icon");
+    const titleBox = document.getElementById("standalone-quiz-result-title");
+    const subtitleBox = document.getElementById("standalone-quiz-result-subtitle");
+
+    let iconSVG = "";
+    let titleText = "";
+    let subtitleText = "";
+
+    if (ratio === 1) {
+        // Punteggio perfetto
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-magenta);"><path d="M50 12 L62 38 L90 40 L68 58 L75 85 L50 70 L25 85 L32 58 L10 40 L38 38 Z" /><circle cx="42" cy="48" r="3" fill="currentColor" stroke="none" /><circle cx="58" cy="48" r="3" fill="currentColor" stroke="none" /><path d="M46 56 Q50 61 54 56" stroke-width="4" /></svg>`;
+        titleText = "Sapiens Supremo!";
+        subtitleText = "Incredibile! Hai risposto correttamente a tutte le domande. Hai una comprensione eccezionale ed empatica della sessualità e delle relazioni.";
+        
+        // Sblocca il trofeo speciale se era la sfida da 10 domande
+        if (total === 10) {
+            appState.unlockedBadges.add("quiz_champion");
+            saveStateToLocalStorage();
+            renderTrophies();
+        }
+    } else if (ratio >= 0.7) {
+        // Ottimo punteggio
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-cyan);"><path d="M50 85 C50 85 12 58 12 36 C12 18 30 12 50 30 C70 12 88 18 88 36 C88 58 50 85 50 85 Z" /><circle cx="37" cy="48" r="3" fill="currentColor" stroke="none" /><circle cx="63" cy="48" r="3" fill="currentColor" stroke="none" /><path d="M44 60 Q50 66 56 60" stroke-width="4" /></svg>`;
+        titleText = "Ottimo cammino!";
+        subtitleText = "Complimenti, hai dimostrato un'eccellente conoscenza generale. Continua così per sbloccare tutti i segreti della bacheca!";
+    } else if (ratio >= 0.5) {
+        // Punteggio sufficiente
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-violet);"><path d="M20 50 C40 30 60 70 80 50" stroke-width="6" /><path d="M50 20 L50 80" stroke-width="4" stroke-dasharray="3 3" /><circle cx="35" cy="42" r="3" fill="currentColor" stroke="none" /><circle cx="65" cy="42" r="3" fill="currentColor" stroke="none" /><path d="M45 56 Q50 61 55 56" stroke-width="4" /></svg>`;
+        titleText = "Buona base!";
+        subtitleText = "Hai una buona conoscenza di base, ma c'è ancora spazio per approfondire. Fai un giro nel Glossario per rivedere alcuni concetti!";
+    } else {
+        // Punteggio basso
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--text-muted);"><path d="M15 50 L85 50 M15 57 L85 57" stroke-width="4" /><rect x="25" y="30" width="50" height="40" rx="5" /><circle cx="42" cy="45" r="2.5" fill="currentColor" stroke="none" /><circle cx="58" cy="45" r="2.5" fill="currentColor" stroke="none" /><path d="M46 56 Q50 52 54 56" stroke-width="4" /></svg>`;
+        titleText = "Non scoraggiarti!";
+        subtitleText = "La sessualità e l'affettività sono mondi complessi e pieni di sfumature. Usa il Glossario per imparare e riprova quando vuoi!";
+    }
+
+    iconBox.innerHTML = iconSVG;
+    titleBox.textContent = titleText;
+    subtitleBox.textContent = subtitleText;
 }
 

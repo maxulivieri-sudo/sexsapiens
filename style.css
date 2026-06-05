@@ -1477,6 +1477,93 @@ footer {
 }
 
 /* ==========================================================================
+   STILI MODALITÀ QUIZ DEDICATA (STANDALONE)
+   ========================================================================== */
+.quiz-mode-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 3rem;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+.quiz-mode-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+#quiz-mode-active {
+    align-items: stretch;
+    text-align: left;
+}
+
+.quiz-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1rem;
+    width: 100%;
+}
+
+.quiz-score-badge {
+    background: rgba(236, 72, 153, 0.15);
+    border: 1px solid rgba(236, 72, 153, 0.3);
+    color: var(--accent-magenta);
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.quiz-length-selector {
+    margin-bottom: 1.5rem;
+}
+
+.quiz-len-btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary.quiz-len-btn.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+    color: white;
+    box-shadow: var(--accent-glow);
+}
+
+.quiz-mode-icon {
+    animation: pulseGently 3s ease-in-out infinite;
+}
+
+@keyframes pulseGently {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.quiz-result-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.score-display-box {
+    animation: dialogueSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
    RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
 @media (max-width: 900px) {
@@ -1514,5 +1601,10 @@ footer {
     
     .modal-content {
         padding: 2rem 1.5rem;
+    }
+
+    .quiz-mode-container {
+        padding: 2rem 1.2rem;
+        margin: 1rem 0;
     }
 }
