@@ -1048,6 +1048,150 @@ const scenariosData = {
                     ]
                 }
             }
+        },
+        {
+            id: "youth_gio",
+            title: "Identità e coming out (Orientamento)",
+            category: "Orientamento",
+            description: "Gio è confuso/a perché si rende conto di essere attratto/a sia da ragazzi che da ragazze, ma teme il giudizio dei compagni.",
+            audience: "youth",
+            startNode: "start",
+            nodes: {
+                start: {
+                    text: "Ehi... posso chiederti un consiglio? Nell'ultimo periodo ho capito di provare attrazione sia per i ragazzi che per le ragazze. Ho cercato online e ho letto della <span class='word-highlight' data-word='bisessualità'>bisessualità</span>, ma a scuola sento spesso dire che è solo una moda, o che le persone bisessuali sono solo confuse o vogliono attenzioni... Mi fa molta paura dirlo in giro. Pensi che abbiano ragione loro?",
+                    speaker: "Gio",
+                    avatar: "🧑‍🦱",
+                    status: "Preoccupato/a e ansioso/a",
+                    options: [
+                        {
+                            text: "Forse dovresti aspettare a definirti, magari in questo periodo sei solo un po' in una fase di confusione passeggera.",
+                            nextNode: "phase_trap",
+                            empathyChange: -15,
+                            unlockedTerms: ["bisessuale"]
+                        },
+                        {
+                            text: "Assolutamente no, Gio. La <span class='word-highlight' data-word='bisessualità'>bisessualità</span> è un orientamento valido e reale, non una fase. Significa provare attrazione per più di un genere.",
+                            nextNode: "explain_bi",
+                            empathyChange: 20,
+                            unlockedTerms: ["bisessuale"]
+                        },
+                        {
+                            text: "Capisco la paura. Oggi ci sono anche identità più fluide come l'essere <span class='word-highlight' data-word='genderqueer'>genderqueer</span> o usare <span class='word-highlight' data-word='pronomi neutri'>pronomi neutri</span>, se ti senti a tuo agio ad esplorare.",
+                            nextNode: "explain_genderqueer",
+                            empathyChange: 10,
+                            unlockedTerms: ["genderqueer", "pronomi neutri"]
+                        }
+                    ]
+                },
+                phase_trap: {
+                    text: "Ma non mi sento in una fase... È da tanto che provo queste cose, solo che adesso ho trovato una parola. Sentirmi dire che è solo 'confusione' mi fa sentire ancora più invisibile e sbagliato/a...",
+                    speaker: "Gio",
+                    avatar: "🧑‍🦱",
+                    status: "Triste e incompreso/a",
+                    options: [
+                        {
+                            text: "Scusami Gio, non volevo minimizzare. Volevo solo dire di non avere fretta, ma la tua attrazione è assolutamente reale ed è bisessualità.",
+                            nextNode: "explain_bi",
+                            empathyChange: 15,
+                            unlockedTerms: ["bisessuale"]
+                        },
+                        {
+                            text: "Se ti offendi così facilmente allora forse non sei abbastanza maturo/a per parlarne.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                explain_genderqueer: {
+                    text: "Sì, ho letto anche di persone <span class='word-highlight' data-word='genderqueer'>genderqueer</span> o che usano <span class='word-highlight' data-word='pronomi neutri'>pronomi neutri</span>. Trovo bello che ci sia libertà, ma nel mio caso sento proprio che riguarda chi mi piace (l'attrazione) e non tanto come mi identifico io rispetto al genere. Anche se l'inclusività mi rasserena.",
+                    speaker: "Gio",
+                    avatar: "🧑‍🦱",
+                    status: "Pensoso/a e attento/a",
+                    options: [
+                        {
+                            text: "Hai ragione, sono due cose distinte: l'identità di genere riguarda chi sei tu, mentre l'orientamento riguarda chi ti attrae. Concentriamoci sulla tua bisessualità, che merita rispetto.",
+                            nextNode: "explain_bi",
+                            empathyChange: 15,
+                            unlockedTerms: ["bisessuale"]
+                        },
+                        {
+                            text: "Vabbè, ma ormai ci sono troppe etichette, si fa solo una gran confusione.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                explain_bi: {
+                    text: "Sì, esatto, mi sento proprio così. Ma come posso affrontare i commenti dei miei compagni si decido di dirlo? Ho paura delle battute o del fatto che pensino che io stia mentendo.",
+                    speaker: "Gio",
+                    avatar: "🧑‍🦱",
+                    status: "Preoccupato/a ma sollevato/a",
+                    options: [
+                        {
+                            text: "Non devi fare coming out per forza con tutti se non ti senti sicuro/a. Fai coming out solo con chi ti fidi davvero e rispetta i tuoi tempi. La tua identità è tua, non devi dimostrare nulla a nessuno.",
+                            nextNode: "end_good",
+                            empathyChange: 20,
+                            unlockedTerms: ["bisessuale"]
+                        },
+                        {
+                            text: "Dovresti dirlo a tutti a gran voce per far vedere che sei coraggioso/a, altrimenti ti nasconderai sempre.",
+                            nextNode: "out_pressure_trap",
+                            empathyChange: -10,
+                            unlockedTerms: ["bisessuale"]
+                        }
+                    ]
+                },
+                out_pressure_trap: {
+                    text: "Ma io non mi sento pronto/a a gridarlo a scuola! C'è gente molto aggressiva e mi sentirei in pericolo... Pensavo che parlarne con te mi avrebbe aiutato/a a trovare una via serena, non ad avere più ansia.",
+                    speaker: "Gio",
+                    avatar: "🧑‍🦱",
+                    status: "Spaventato/a e agitato/a",
+                    options: [
+                        {
+                            text: "Hai totalmente ragione. Scusami, ho corso troppo. La sicurezza e la tua serenità vengono prima di tutto. Parlane solo con chi ti fa sentire al sicuro.",
+                            nextNode: "end_good",
+                            empathyChange: 20,
+                            unlockedTerms: ["bisessuale"]
+                        },
+                        {
+                            text: "Se hai così tanta paura, allora forse non sei ancora sicuro/a di chi sei.",
+                            nextNode: "end_bad",
+                            empathyChange: -25,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                end_good: {
+                    text: "Grazie di cuore. Parlare con te mi ha fatto capire che quello che provo è reale e che non devo giustificarmi. Inizierò parlandone solo con la mia amica del cuore, so che mi capirà.",
+                    speaker: "Gio",
+                    avatar: "🧑‍🦱",
+                    status: "Fiducioso/a e sorridente",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                },
+                end_bad: {
+                    text: "Pensavo che questo fosse uno spazio sicuro, ma mi sento solo giudicato/a. Forse è meglio se tengo tutto per me e non ne parlo più.",
+                    speaker: "Gio",
+                    avatar: "🧑‍🦱",
+                    status: "Chiuso/a e deluso/a",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                }
+            }
         }
     ],
     adults: [
@@ -1626,6 +1770,170 @@ const scenariosData = {
                     ]
                 }
             }
+        },
+        {
+            id: "adults_marco",
+            title: "Oltre la monogamia (Relazioni)",
+            category: "Relazioni & Consenso",
+            description: "Marco vuole esplorare l'idea di una relazione aperta o dell'anarchia relazionale con la partner Giulia, ma teme di ferirla.",
+            audience: "adults",
+            startNode: "start",
+            nodes: {
+                start: {
+                    text: "Giulia, c'è un argomento di cui vorrei parlarti da un po', ma ho molta paura di ferirti. Amo moltissimo la nostra relazione, ma ultimamente sento che la monogamia mi sta stretta. Ho letto molto su concetti come la <span class='word-highlight' data-word='relazione aperta'>relazione aperta</span> e l'<span class='word-highlight' data-word='anarchia relazionale'>anarchia relazionale</span>. Pensi che parlarne significhi rovinare quello che abbiamo o tradire la tua fiducia?",
+                    speaker: "Marco",
+                    avatar: "👨",
+                    status: "Nervoso ma sincero",
+                    options: [
+                        {
+                            text: "Se provi attrazione per altri, allora forse non mi ami abbastanza e la nostra relazione è finita.",
+                            nextNode: "love_trap",
+                            empathyChange: -15,
+                            unlockedTerms: ["relazione aperta"]
+                        },
+                        {
+                            text: "Parlare dei propri desideri non è mai un tradimento, Marco. L'onestà è fondamentale. Cerchiamo di capire cosa intendi per <span class='word-highlight' data-word='relazione aperta'>relazione aperta</span> e come la immagini per noi.",
+                            nextNode: "explain_open",
+                            empathyChange: 20,
+                            unlockedTerms: ["relazione aperta", "anarchia relazionale"]
+                        },
+                        {
+                            text: "La trovo un'idea interessante, ma mi spaventa la gelosia. Pensi che potremmo farcela senza ferirci?",
+                            nextNode: "explain_jealousy",
+                            empathyChange: 10,
+                            unlockedTerms: ["relazione aperta"]
+                        }
+                    ]
+                },
+                love_trap: {
+                    text: "No Giulia, ti amo tantissimo ed è per questo che te ne parlo, invece di agire alle tue spalle! Volevo che fossimo sinceri. Sentirmi dire che non ti amo solo perché provo desideri diversi mi fa sentire in colpa per essere onesto...",
+                    speaker: "Marco",
+                    avatar: "👨",
+                    status: "Triste e scoraggiato",
+                    options: [
+                        {
+                            text: "Scusami Marco, la mia è stata una reazione dettata dalla paura dell'abbandono. Apprezzo la tua sincerità. Parliamone con calma: cosa intendi esattamente?",
+                            nextNode: "explain_open",
+                            empathyChange: 15,
+                            unlockedTerms: ["relazione aperta"]
+                        },
+                        {
+                            text: "Se provi certe cose significa che sono io a non bastarti. È inutile continuare questo discorso.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                explain_jealousy: {
+                    text: "La gelosia è normale, spaventa anche me. Ma la non-monogamia si basa proprio sulla gestione condivisa di queste emozioni, definendo confini precisi. Ad Example, nell'<span class='word-highlight' data-word='anarchia relazionale'>anarchia relazionale</span> si rifiutano le regole imposte dall'alto e ogni legame si co-crea da zero, basandosi sulla fiducia.",
+                    speaker: "Marco",
+                    avatar: "👨",
+                    status: "Riflessivo ed empatico",
+                    options: [
+                        {
+                            text: "Capisco il concetto di co-creare il legame, ma per me la sicurezza emotiva è fondamentale. Se aprissimo la relazione, vorrei che lo facessimo con regole condivise, passo dopo passo.",
+                            nextNode: "explain_open",
+                            empathyChange: 15,
+                            unlockedTerms: ["relazione aperta", "anarchia relazionale"]
+                        },
+                        {
+                            text: "L'anarchia relazionale mi sembra solo una scusa per fare quello che si vuole senza assumersi responsabilità.",
+                            nextNode: "responsibility_trap",
+                            empathyChange: -10,
+                            unlockedTerms: ["anarchia relazionale"]
+                        }
+                    ]
+                },
+                responsibility_trap: {
+                    text: "In realtà è il contrario: richiede molta più responsabilità, comunicazione e consapevolezza rispetto a seguire un copione standard di coppia. Ma capisco che possa spaventare. Non voglio imporlo, volevo solo confrontarmi.",
+                    speaker: "Marco",
+                    avatar: "👨",
+                    status: "Un po' deluso ma calmo",
+                    options: [
+                        {
+                            text: "Scusami, ho giudicato senza conoscere. Voglio capire meglio. Dimmi pure come immagini che possa funzionare per noi.",
+                            nextNode: "explain_open",
+                            empathyChange: 15,
+                            unlockedTerms: ["anarchia relazionale", "relazione aperta"]
+                        },
+                        {
+                            text: "Allora forse non siamo compatibili, io voglio una relazione tradizionale e tu no.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                explain_open: {
+                    text: "Per me l'importante è che la nostra intimità affettiva rimanga solida. Immagino la possibilità di esplorare attrazioni fisiche con altre persone, ma sempre con il tuo consenso, in totale trasparenza e senza che questo diminuisca il mio amore per te. Cosa ne pensi, saresti disposta a fare un piccolo passo alla volta per esplorare questa idea?",
+                    speaker: "Marco",
+                    avatar: "👨",
+                    status: "Speranzoso ma rispettoso",
+                    options: [
+                        {
+                            text: "Apprezzo che tu non stia imponendo nulla. Ho bisogno di tempo per pensarci, leggere e capire cosa provo. Facciamo un passo alla volta, continuando a parlarne senza fretta.",
+                            nextNode: "end_good",
+                            empathyChange: 20,
+                            unlockedTerms: ["relazione aperta"]
+                        },
+                        {
+                            text: "Va bene, facciamolo subito. Se serve a tenerti con me, accetto anche se la cosa mi fa stare male.",
+                            nextNode: "compromise_trap",
+                            empathyChange: -15,
+                            unlockedTerms: ["relazione aperta"]
+                        }
+                    ]
+                },
+                compromise_trap: {
+                    text: "No Giulia, accettare per costrizione o paura di perdermi è la ricetta per stare male entrambi. Una relazione aperta funziona solo se è un desiderio condiviso e consensuale, non un ricatto emotivo. Preferisco che rimaniamo monogami piuttosto che vederti soffrire.",
+                    speaker: "Marco",
+                    avatar: "👨",
+                    status: "Preoccupato e protettivo",
+                    options: [
+                        {
+                            text: "Grazie per avermi protetta. Hai ragione, non posso farlo solo per compiacerti. Prendiamoci del tempo per capire se è una strada che possiamo desiderare davvero insieme.",
+                            nextNode: "end_good",
+                            empathyChange: 20,
+                            unlockedTerms: ["relazione aperta"]
+                        },
+                        {
+                            text: "Allora vedi che è impossibile? Le relazioni non-monogame sono destinate a fallire.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                end_good: {
+                    text: "Grazie Giulia. Sapere che posso condividere con te i miei pensieri più intimi senza che la nostra relazione vada in pezzi mi fa sentire ancora più legato a te. Continuiamo a parlarne.",
+                    speaker: "Marco",
+                    avatar: "👨",
+                    status: "Sereno e grato",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                },
+                end_bad: {
+                    text: "Mi spiace, ma questa conversazione ha aperto una crepa di insicurezza troppo grande. Sento che non posso più fidarmi del fatto che tu sia felice con me. Forse dovremmo prenderci una pausa.",
+                    speaker: "Marco",
+                    avatar: "👨",
+                    status: "Chiuso e ferito",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                }
+            }
         }
     ]
 };
@@ -1669,7 +1977,7 @@ const badgesData = [
     {
         id: "all_scenarios",
         title: "Esploratore delle Relazioni",
-        description: "Completa tutti gli 8 scenari educativi disponibili.",
+        description: "Completa tutti i 10 scenari educativi disponibili.",
         icon: '<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M25 25 L75 25 C75 45 65 60 50 60 C35 60 25 45 25 25 Z" /><path d="M25 32 C15 32 15 45 25 48" /><path d="M75 32 C85 32 85 45 75 48" /><path d="M50 60 L50 75" stroke-width="6" /><path d="M35 75 C45 75 55 75 65 75" /><path d="M30 82 C42 80 58 80 70 82" /><circle cx="42" cy="38" r="3" fill="currentColor" stroke="none" /><circle cx="58" cy="38" r="3" fill="currentColor" stroke="none" /><path d="M47 46 Q50 50 53 46" stroke-width="4" /></svg>'
     },
     {
@@ -3181,8 +3489,8 @@ function checkBadges() {
         appState.unlockedBadges.add("quiz_master");
     }
 
-    // 4. Esploratore delle Relazioni (Completa tutti e 8 gli scenari)
-    if (appState.completedScenarios.size >= 8) {
+    // 4. Esploratore delle Relazioni (Completa tutti e 10 gli scenari)
+    if (appState.completedScenarios.size >= 10) {
         appState.unlockedBadges.add("all_scenarios");
     }
 }
