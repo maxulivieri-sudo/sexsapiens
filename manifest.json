@@ -1,0 +1,24 @@
+{
+  "name": "Sexsapiens",
+  "short_name": "Sexsapiens",
+  "description": "Impara ed esplora la sessualità, il genere e le relazioni con empatia e consapevolezza.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#120a24",
+  "theme_color": "#120a24",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./pwa-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./pwa-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

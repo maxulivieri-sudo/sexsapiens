@@ -2243,6 +2243,15 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Mostra la home di default
     showSection("home");
+
+    // Registrazione del Service Worker per il funzionamento offline PWA
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(reg => console.log('Service Worker registrato con successo!', reg))
+                .catch(err => console.error('Errore nella registrazione del Service Worker:', err));
+        });
+    }
 });
 
 // GESTIONE NAVIGAZIONE (SPA)
