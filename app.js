@@ -2045,6 +2045,13 @@ function saveStateToLocalStorage() {
     }
 }
 
+// TRACCIAMENTO GOOGLE ANALYTICS
+function trackAnalyticsEvent(eventName, params = {}) {
+    if (typeof gtag === "function") {
+        gtag("event", eventName, params);
+    }
+}
+
 // ==========================================================================
 // MODULO SINTESI SONORA (WEB AUDIO API) E GESTIONE AUDIO
 // ==========================================================================
@@ -2377,6 +2384,13 @@ function startScenario(scenario) {
     document.getElementById("options-container").classList.remove("hidden");
     
     renderCurrentNode();
+
+    // Traccia avvio scenario su Analytics
+    trackAnalyticsEvent("start_scenario", {
+        scenario_id: scenario.id,
+        scenario_title: scenario.title,
+        audience: scenario.audience
+    });
 }
 
 function shuffleArray(array) {
@@ -2631,6 +2645,14 @@ function showEndScreen() {
     checkBadges();
     saveStateToLocalStorage();
     renderTrophies();
+
+    // Traccia completamento scenario su Analytics
+    trackAnalyticsEvent("complete_scenario", {
+        scenario_id: appState.currentScenario.id,
+        scenario_title: appState.currentScenario.title,
+        empathy_score: appState.empathyScore,
+        unlocked_terms_count: appState.scenarioTermsUnlockedThisRun.size
+    });
 
     // Configura bottoni di fine gioco
     document.getElementById("btn-go-glossary").onclick = () => {
@@ -3476,22 +3498,34 @@ function handleQuizAnswer(selectedIndex, correctIndex, clickedBtn) {
 function checkBadges() {
     // 1. Campione dell'Empatia (100% Empatia)
     if (appState.empathyScore === 100) {
-        appState.unlockedBadges.add("empathy_champion");
+        if (!appState.unlockedBadges.has("empathy_champion")) {
+            appState.unlockedBadges.add("empathy_champion");
+            trackAnalyticsEvent("unlock_badge", { badge_id: "empathy_champion", badge_title: "Campione dell'Empatia" });
+        }
     }
 
     // 2. Linguista Sessuologo (Sblocca 8+ termini)
     if (appState.unlockedTerms.size >= 8) {
-        appState.unlockedBadges.add("glossary_explorer");
+        if (!appState.unlockedBadges.has("glossary_explorer")) {
+            appState.unlockedBadges.add("glossary_explorer");
+            trackAnalyticsEvent("unlock_badge", { badge_id: "glossary_explorer", badge_title: "Linguista Sessuologo" });
+        }
     }
 
     // 3. Cervellone del Consenso (Quiz perfetto)
     if (appState.quizCorrectCount === appState.quizTotalCount && appState.quizTotalCount > 0) {
-        appState.unlockedBadges.add("quiz_master");
+        if (!appState.unlockedBadges.has("quiz_master")) {
+            appState.unlockedBadges.add("quiz_master");
+            trackAnalyticsEvent("unlock_badge", { badge_id: "quiz_master", badge_title: "Cervellone del Consenso" });
+        }
     }
 
     // 4. Esploratore delle Relazioni (Completa tutti e 10 gli scenari)
     if (appState.completedScenarios.size >= 10) {
-        appState.unlockedBadges.add("all_scenarios");
+        if (!appState.unlockedBadges.has("all_scenarios")) {
+            appState.unlockedBadges.add("all_scenarios");
+            trackAnalyticsEvent("unlock_badge", { badge_id: "all_scenarios", badge_title: "Esploratore delle Relazioni" });
+        }
     }
 }
 
@@ -3584,6 +3618,11 @@ function startStandaloneQuiz() {
     standaloneQuizState.currentIndex = 0;
     standaloneQuizState.score = 0;
     standaloneQuizState.questions = [];
+
+    // Traccia avvio del quiz su Analytics
+    trackAnalyticsEvent("start_quiz", {
+        questions_count: standaloneQuizState.length
+    });
 
     // Otteniamo tutte le chiavi reali di quizQuestions (escludendo gli alias per evitare doppioni)
     const keys = Object.keys(quizQuestions).filter(k => {
@@ -3688,6 +3727,13 @@ function showStandaloneResults() {
 
     document.getElementById("standalone-quiz-final-score").textContent = `${score}/${total}`;
 
+    // Traccia completamento quiz su Analytics
+    trackAnalyticsEvent("complete_quiz", {
+        questions_count: total,
+        score: score,
+        score_ratio: ratio
+    });
+
     // Scegli icona e messaggio basato sul punteggio
     const iconBox = document.getElementById("standalone-quiz-result-icon");
     const titleBox = document.getElementById("standalone-quiz-result-title");
@@ -3705,7 +3751,10 @@ function showStandaloneResults() {
         
         // Sblocca il trofeo speciale se era la sfida da 10 domande
         if (total === 10) {
-            appState.unlockedBadges.add("quiz_champion");
+            if (!appState.unlockedBadges.has("quiz_champion")) {
+                appState.unlockedBadges.add("quiz_champion");
+                trackAnalyticsEvent("unlock_badge", { badge_id: "quiz_champion", badge_title: "Cervellone di Sexsapiens" });
+            }
             saveStateToLocalStorage();
             renderTrophies();
         }
@@ -3906,6 +3955,9 @@ function startMythGame() {
     document.getElementById("myth-game-screen").classList.remove("hidden");
     document.getElementById("myth-game-results").classList.add("hidden");
 
+    // Traccia avvio del gioco dei miti su Analytics
+    trackAnalyticsEvent("start_myth_game");
+
     // Assicurati che non sia flippata
     document.getElementById("myth-card").classList.remove("flipped");
 
@@ -3971,6 +4023,13 @@ function showMythResults() {
 
     document.getElementById("myth-final-score").textContent = `${score}/${total}`;
 
+    // Traccia completamento gioco miti su Analytics
+    trackAnalyticsEvent("complete_myth_game", {
+        score: score,
+        total_questions: total,
+        score_ratio: ratio
+    });
+
     const iconBox = document.getElementById("myth-result-icon");
     const titleBox = document.getElementById("myth-result-title");
     const subtitleBox = document.getElementById("myth-result-subtitle");
@@ -3986,7 +4045,10 @@ function showMythResults() {
         subtitleText = "Incredibile! Hai smascherato ogni singolo falso mito. La tua conoscenza scientifica e di prevenzione è impeccabile.";
         
         // Sblocca badge
-        appState.unlockedBadges.add("myth_debunker");
+        if (!appState.unlockedBadges.has("myth_debunker")) {
+            appState.unlockedBadges.add("myth_debunker");
+            trackAnalyticsEvent("unlock_badge", { badge_id: "myth_debunker", badge_title: "Debunker di Falsi Miti" });
+        }
         saveStateToLocalStorage();
         renderTrophies();
     } else if (ratio >= 0.7) {
