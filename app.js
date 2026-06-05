@@ -683,6 +683,362 @@ const scenariosData = {
                     ]
                 }
             }
+        },
+        {
+            id: "youth_elia",
+            title: "La prima volta (Salute e Prevenzione)",
+            category: "Salute & Prevenzione",
+            description: "Elia vuole prepararsi per il suo primo rapporto sessuale e parlare col partner di protezione e salute in modo consapevole.",
+            audience: "youth",
+            startNode: "start",
+            nodes: {
+                start: {
+                    text: "Senti... so che stiamo pensando di fare l'amore per la prima volta presto. Io sono super emozionato, ma voglio anche che siamo al sicuro. Volevo parlarti dell'uso del <span class='word-highlight' data-word='profilattico'>profilattico</span> per evitare gravidanze e proteggerci dalle <span class='word-highlight' data-word='ist'>IST</span>.",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Emozionato ma un po' in ansia",
+                    options: [
+                        {
+                            text: "Ma sì, facciamolo! Però pensavo... se prendo la pillola o stiamo bene entrambi, serve davvero il profilattico?",
+                            nextNode: "prevention_trap",
+                            empathyChange: -10,
+                            unlockedTerms: ["profilattico", "ist"]
+                        },
+                        {
+                            text: "Hai pienamente ragione, Elia. La salute di entrambi è al primo posto. Come possiamo organizzarci per l'acquisto e l'uso?",
+                            nextNode: "prepare",
+                            empathyChange: 20,
+                            unlockedTerms: ["profilattico", "ist"]
+                        },
+                        {
+                            text: "Ma dai, che ansia! Non possiamo semplicemente goderci il momento senza programmare tutto come un esame medico?",
+                            nextNode: "dismissive",
+                            empathyChange: -15,
+                            unlockedTerms: ["profilattico"]
+                        }
+                    ]
+                },
+                prevention_trap: {
+                    text: "Guarda che la pillola previene solo le gravidanze, ma non protegge affatto dalle <span class='word-highlight' data-word='ist'>IST</span> (Infezioni Sessualmente Trasmissibili). E molte infezioni possono essere asintomatiche, cioè non si vede o sente nulla ma si trasmettono comunque.",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Serio e informato",
+                    options: [
+                        {
+                            text: "Ah, scusami, non lo sapevo! Allora usiamo assolutamente il profilattico. Voglio proteggere entrambi.",
+                            nextNode: "prepare",
+                            empathyChange: 20,
+                            unlockedTerms: ["profilattico", "ist"]
+                        },
+                        {
+                            text: "Vabbè, ma se siamo i primi l'uno per l'altra, da dove dovremmo prenderle queste infezioni? Mi sembra esagerato.",
+                            nextNode: "trust_trap",
+                            empathyChange: -15,
+                            unlockedTerms: ["ist"]
+                        }
+                    ]
+                },
+                trust_trap: {
+                    text: "Anche se è la nostra prima volta insieme, alcune infezioni si trasmettono anche tramite sesso orale non protetto o contatti cutanei intimi, o magari da precedenti contatti superficiali. Non è una questione di fiducia, ma di cura reciproca.",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Paziente ma fermo",
+                    options: [
+                        {
+                            text: "Hai ragione, proteggersi è un atto di rispetto. Parliamo anche di come renderlo confortevole.",
+                            nextNode: "lube_choice",
+                            empathyChange: 20,
+                            unlockedTerms: ["profilattico", "ist"]
+                        },
+                        {
+                            text: "Se devi fare tutte queste storie, allora forse non siamo ancora pronti. Lasciamo stare.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                dismissive: {
+                    text: "Non voglio rovinare il momento, anzi! Parlarne prima ci permette di rilassarci e goderci tutto senza preoccupazioni dopo. Vorrei davvero che fossimo d'accordo su questo.",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Un po' scoraggiato ma speranzoso",
+                    options: [
+                        {
+                            text: "Scusami Elia, hai ragione. È maturo parlarne prima. Usiamo il profilattico. Cos'altro dovremmo sapere?",
+                            nextNode: "prepare",
+                            empathyChange: 15,
+                            unlockedTerms: ["profilattico"]
+                        },
+                        {
+                            text: "Sì, vabbè, ma parlarne così toglie tutta la magia. Cambiamo discorso.",
+                            nextNode: "end_bad",
+                            empathyChange: -15,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                prepare: {
+                    text: "Meno male! Pensavo anche che dovremmo usare un <span class='word-highlight' data-word='lubrificante'>lubrificante</span> a base acquosa per evitare attrito, irritazioni e prevenire la rottura del profilattico. Avevo letto di usare olio per massaggi o vaselina, va bene lo stesso?",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Incuriosito",
+                    options: [
+                        {
+                            text: "No! Gli oli e la vaselina danneggiano il lattice del profilattico facendolo rompere. Dobbiamo usare solo lubrificanti a base acquosa o siliconica.",
+                            nextNode: "lube_correct",
+                            empathyChange: 20,
+                            unlockedTerms: ["lubrificante", "profilattico"]
+                        },
+                        {
+                            text: "Sì, penso che l'olio per massaggi vada benissimo, lubrifica molto di più e rende tutto più scorrevole.",
+                            nextNode: "lube_oil_trap",
+                            empathyChange: -15,
+                            unlockedTerms: ["lubrificante"]
+                        }
+                    ]
+                },
+                lube_choice: {
+                    text: "Sì, per rendere il rapporto più confortevole pensavo di usare del <span class='word-highlight' data-word='lubrificante'>lubrificante</span>. Ho letto che l'olio per bambini o la vaselina vanno benissimo con il profilattico, confermi?",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Dubbioso",
+                    options: [
+                        {
+                            text: "Assolutamente no. I prodotti a base oleosa indeboliscono il lattice del condom e lo fanno rompere. Serve un lubrificante a base acquosa.",
+                            nextNode: "lube_correct",
+                            empathyChange: 20,
+                            unlockedTerms: ["lubrificante", "profilattico"]
+                        },
+                        {
+                            text: "Sì, credo di sì, alla fine sono fatti apposta per la pelle, quindi vanno bene.",
+                            nextNode: "lube_oil_trap",
+                            empathyChange: -15,
+                            unlockedTerms: ["lubrificante"]
+                        }
+                    ]
+                },
+                lube_oil_trap: {
+                    text: "Aspetta! Ho controllato online ed è un grave errore: gli oli deteriorano il lattice in pochi minuti! Rischiamo che il profilattico si rompa. Dobbiamo usare solo lubrificanti a base acquosa.",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Preoccupato",
+                    options: [
+                        {
+                            text: "Meno male che hai verificato! Useremo solo quello a base acquosa. Grazie per la precisione.",
+                            nextNode: "end_good",
+                            empathyChange: 15,
+                            unlockedTerms: ["lubrificante"]
+                        },
+                        {
+                            text: "Uffa, quante regole. Mi sta passando la voglia.",
+                            nextNode: "end_bad",
+                            empathyChange: -15,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                lube_correct: {
+                    text: "Ottima precisazione! Fortunatamente lo abbiamo scoperto prima. Allora prenderò un gel lubrificante a base acquosa specifico in farmacia o al supermercato insieme ai profilattici della taglia giusta.",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Sollevato e fiducioso",
+                    options: [
+                        {
+                            text: "Perfetto Elia. Affrontare questo passo insieme e con questa consapevolezza ci unisce ancora di più. Non vedo l'ora.",
+                            nextNode: "end_good",
+                            empathyChange: 20,
+                            unlockedTerms: ["lubrificante", "profilattico"]
+                        }
+                    ]
+                },
+                end_good: {
+                    text: "Anche io! Mi sento molto più tranquillo e felice ora che ne abbiamo parlato apertamente. Fare l'amore sarà bellissimo e sicuro per entrambi.",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Molto felice e sereno",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                },
+                end_bad: {
+                    text: "Mi spiace che parlarne ti infastidisca... Penso sia meglio prenderci del tempo e non correre. Ci sentiamo nei prossimi giorni.",
+                    speaker: "Elia",
+                    avatar: "🧑",
+                    status: "Triste e deluso",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            id: "youth_martina",
+            title: "Oltre le aspettative (Orientamento)",
+            category: "Orientamento",
+            description: "Martina si sente confusa perché non prova attrazione fisica spontanea come i suoi amici. Aiutala a comprendere il suo orientamento.",
+            audience: "youth",
+            startNode: "start",
+            nodes: {
+                start: {
+                    text: "Ehi, ti posso parlare? Ieri sera le mie amiche parlavano di ragazzi, di quanto trovino attraenti certi attori o compagni di scuola... Io mi sentivo un'aliena. Non provo quell'attrazione fisica immediata. Mi succede solo se conosco profondamente qualcuno ed è nato un forte legame emotivo. Ho qualcosa di sbagliato?",
+                    speaker: "Martina",
+                    avatar: "👧",
+                    status: "Triste e insicura",
+                    options: [
+                        {
+                            text: "Ma no, sei solo timida e vecchio stile! Vedrai che quando incontrerai la persona giusta cambierà tutto.",
+                            nextNode: "invalidation_trap",
+                            empathyChange: -15,
+                            unlockedTerms: ["demisessualità"]
+                        },
+                        {
+                            text: "Non c'è nulla di sbagliato in te, Martina. Quello che descrivi si chiama <span class='word-highlight' data-word='demisessualità'>demisessualità</span>, ed è un orientamento del tutto naturale dello spettro dell'<span class='word-highlight' data-word='asessualità'>asessualità</span>.",
+                            nextNode: "explain_demi",
+                            empathyChange: 20,
+                            unlockedTerms: ["demisessualità", "asessualità"]
+                        },
+                        {
+                            text: "Forse semplicemente non ti interessano le relazioni in generale e sei nello spettro dell'<span class='word-highlight' data-word='aromanticismo'>aromanticismo</span>?",
+                            nextNode: "explain_aro",
+                            empathyChange: 5,
+                            unlockedTerms: ["aromanticismo"]
+                        }
+                    ]
+                },
+                invalidation_trap: {
+                    text: "Ma non credo sia solo timidezza... Io vorrei davvero provare quell'attrazione spontanea che provano le altre, ma non ci riesco. Mi sento difettosa, come se mancasse un pezzo nel mio cervello.",
+                    speaker: "Martina",
+                    avatar: "👧",
+                    status: "Ferita e sconfortata",
+                    options: [
+                        {
+                            text: "Scusami Martina, non volevo minimizzare. In realtà la tua esperienza è condivisa da molte persone ed è definita demisessualità. Non sei affatto rotta.",
+                            nextNode: "explain_demi",
+                            empathyChange: 15,
+                            unlockedTerms: ["demisessualità"]
+                        },
+                        {
+                            text: "Dovresti sforzarti di uscire di più e fare esperienze, sennò rimarrai sempre bloccata in queste fisime.",
+                            nextNode: "end_bad",
+                            empathyChange: -25,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                explain_demi: {
+                    text: "Davvero esiste un termine? <span class='word-highlight' data-word='demisessualità'>Demisessualità</span>... Suona strano, ma descrive esattamente come mi sento. Significa che non provo attrazione sessuale se prima non c'è una forte connessione emotiva o mentale. Quindi fa parte dell'asessualità?",
+                    speaker: "Martina",
+                    avatar: "👧",
+                    status: "Sorpresa e incuriosita",
+                    options: [
+                        {
+                            text: "Sì, l'<span class='word-highlight' data-word='asessualità'>asessualità</span> è uno spettro ampio. Alcuni non provano mai attrazione sessuale, altri la provano in modo condizionato come i demisessuali.",
+                            nextNode: "spectrum_details",
+                            empathyChange: 20,
+                            unlockedTerms: ["asessualità", "demisessualità"]
+                        },
+                        {
+                            text: "Sì, è come una scelta di castità o astinenza morale che decidi di praticare finché non trovi l'amore.",
+                            nextNode: "abstinence_trap",
+                            empathyChange: -10,
+                            unlockedTerms: ["demisessualità"]
+                        }
+                    ]
+                },
+                abstinence_trap: {
+                    text: "Ma io non ho fatto nessuna scelta morale o religiosa! Non è che mi 'impongo' di non farlo... È proprio che l'impulso fisico non si accende se non c'è prima quel legame profondo. Non è una regola, è come sono fatta.",
+                    speaker: "Martina",
+                    avatar: "👧",
+                    status: "Infastidita e fraintesa",
+                    options: [
+                        {
+                            text: "Hai perfettamente ragione, scusami. L'astinenza è un comportamento (una scelta), mentre la demisessualità è un orientamento (come si sperimenta l'attrazione). C'è una grande differenza.",
+                            nextNode: "spectrum_details",
+                            empathyChange: 20,
+                            unlockedTerms: ["demisessualità"]
+                        },
+                        {
+                            text: "Beh, alla fine l'effetto pratico è lo stesso, inutile perdersi in sottigliezze di parole.",
+                            nextNode: "end_bad",
+                            empathyChange: -15,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                explain_aro: {
+                    text: "In realtà io provo attrazione romantica! Mi innamoro, desidero coccole, complicità e una relazione affettiva... Solo che l'attrazione fisica/sessuale non scatta subito.",
+                    speaker: "Martina",
+                    avatar: "👧",
+                    status: "Pensosa",
+                    options: [
+                        {
+                            text: "Capisco! Allora sperimenti attrazione romantica ma non quella sessuale immediata. Questo conferma che sei nello spettro demisessuale.",
+                            nextNode: "explain_demi",
+                            empathyChange: 15,
+                            unlockedTerms: ["demisessualità", "aromanticismo"]
+                        },
+                        {
+                            text: "Ah, allora sei solo complicata. O romantica o asessuale, le due cose insieme non hanno senso.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                spectrum_details: {
+                    text: "Questo mi toglie un peso enorme dal petto! Ho sempre pensato che ci fosse qualcosa che non andava in me rispetto alle mie amiche. Sapere che è una variante naturale mi fa sentire normale. Grazie di cuore per avermi ascoltata.",
+                    speaker: "Martina",
+                    avatar: "👧",
+                    status: "Sollevata e felice",
+                    options: [
+                        {
+                            text: "Di nulla, Martina. Ognuno ha i propri tempi e le proprie modalità per provare attrazione. Rispetta sempre te stessa e i tuoi confini.",
+                            nextNode: "end_good",
+                            empathyChange: 20,
+                            unlockedTerms: ["asessualità", "demisessualità"]
+                        }
+                    ]
+                },
+                end_good: {
+                    text: "Lo farò sicuramente. Ora mi sento molto più forte e pronta a vivere le mie relazioni alle mie condizioni, senza pressioni sociali.",
+                    speaker: "Martina",
+                    avatar: "👧",
+                    status: "Fiduciosa e sorridente",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                },
+                end_bad: {
+                    text: "Pensavo che parlarne con te mi avrebbe aiutata, ma mi sento ancora più giudicata e incompresa. Meglio se vado a casa.",
+                    speaker: "Martina",
+                    avatar: "👧",
+                    status: "Molto triste e chiusa",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                }
+            }
         }
     ],
     adults: [
@@ -983,6 +1339,284 @@ const scenariosData = {
                     ]
                 }
             }
+        },
+        {
+            id: "adults_luca",
+            title: "Riconoscere i confini (Relazioni)",
+            category: "Relazioni & Consenso",
+            description: "Luca si sente soffocare in una relazione in cui riceve regali eccessivi e pressioni, ed è confuso da discussioni in cui dubita di se stesso.",
+            audience: "adults",
+            startNode: "start",
+            nodes: {
+                start: {
+                    text: "Grazie di essere venuto... sono davvero confuso. Sto con questa persona da poche settimane, all'inizio è stato travolgente. Mi riempiva di regali, complimenti, voleva vederci ogni giorno... Un vero e proprio <span class='word-highlight' data-word='love bombing'>love bombing</span>. Ma adesso, se voglio vedere i miei amici, si arrabbia e mi accusa di non amarla. E se litighiamo, mi dice 'non l'ho mai detto, ti stai inventando tutto', facendomi dubitare dei fatti.",
+                    speaker: "Luca",
+                    avatar: "🧑",
+                    status: "Estremamente ansioso e insicuro",
+                    options: [
+                        {
+                            text: "Ma scusa, ti riempie di regali e ti ama così tanto! Non essere paranoico, goditi questa fortuna. Ognuno ha il suo modo di amare.",
+                            nextNode: "justification_trap",
+                            empathyChange: -15,
+                            unlockedTerms: ["love bombing"]
+                        },
+                        {
+                            text: "Luca, quello che descrivi è allarmante. Il love bombing iniziale seguito dal tentativo di isolarti e di farti dubitare dei tuoi ricordi - che è una forma di <span class='word-highlight' data-word='gaslighting'>gaslighting</span> - sono segnali di manipolazione. Dobbiamo parlare dei tuoi <span class='word-highlight' data-word='confini personali'>confini personali</span>.",
+                            nextNode: "analyze_situation",
+                            empathyChange: 20,
+                            unlockedTerms: ["love bombing", "gaslighting", "confini personali"]
+                        },
+                        {
+                            text: "Forse sei tu che ti dimentichi le cose davvero, no? Magari prova a registrare le discussioni sul telefono o segnarle per capire chi ha ragione.",
+                            nextNode: "doubt_trap",
+                            empathyChange: -10,
+                            unlockedTerms: ["gaslighting"]
+                        }
+                    ]
+                },
+                justification_trap: {
+                    text: "Sì, all'inizio era bellissimo... ma ora mi sento soffocare. Mi controlla persino il telefono dicendo che 'in amore non ci sono segreti'. Se provo a mettere una distanza o a dire no, mi fa sentire in colpa dicendo che voglio distruggere la nostra relazione. Non so più cosa pensare.",
+                    speaker: "Luca",
+                    avatar: "🧑",
+                    status: "Triste e smarrito",
+                    options: [
+                        {
+                            text: "Nessuno ha il diritto di controllarti o di ignorare i tuoi limiti. Mettere dei paletti, cioè definire i propri confini personali, è sano in qualsiasi tipo di relazione.",
+                            nextNode: "explain_boundaries",
+                            empathyChange: 20,
+                            unlockedTerms: ["confini personali"]
+                        },
+                        {
+                            text: "Se ti ama così tanto, forse dovresti semplicemente accontentarla e rinunciare a vedere gli amici per un po'. Alla fine le coppie felici fanno tutto insieme.",
+                            nextNode: "end_bad",
+                            empathyChange: -25,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                doubt_trap: {
+                    text: "Ma come posso stare con qualcuno se devo registrare le conversazioni per non impazzire? Sento che sto perdendo la testa, non mi fido più delle mie stesse sensazioni. Forse ho davvero torto io.",
+                    speaker: "Luca",
+                    avatar: "🧑",
+                    status: "Sull'orlo del panico",
+                    options: [
+                        {
+                            text: "Luca, fermati. Questo è esattamente l'effetto del gaslighting: farti perdere fiducia nella tua percezione. Non sei tu il problema. Devi difendere i tuoi confini personali.",
+                            nextNode: "explain_boundaries",
+                            empathyChange: 20,
+                            unlockedTerms: ["gaslighting", "confini personali"]
+                        },
+                        {
+                            text: "In effetti, se sei così insicuro, forse dovresti fare terapia di coppia per risolvere i tuoi problemi di memoria.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                analyze_situation: {
+                    text: "Quindi si tratta di manipolazione? Non riesco a crederci. Diceva che ero l'anima gemella... Ora invece mi sento costantemente sotto controllo e in colpa. Cosa sono esattamente questi <span class='word-highlight' data-word='confini personali'>confini personali</span> di cui parli e come posso difenderli?",
+                    speaker: "Luca",
+                    avatar: "🧑",
+                    status: "Attento e speranzoso",
+                    options: [
+                        {
+                            text: "I confini personali sono le linee guida e i limiti fisici ed emotivi che stabiliamo per proteggerci. Dire 'ho bisogno di vedere i miei amici' è un tuo diritto inalienabile.",
+                            nextNode: "explain_boundaries",
+                            empathyChange: 20,
+                            unlockedTerms: ["confini personali"]
+                        }
+                    ]
+                },
+                explain_boundaries: {
+                    text: "Capisco... quindi ho il diritto di dire 'no' e di pretendere spazio. Ma quando provo a dirlo, la discussione si sposta sempre su 'se mi amassi, non chiederesti spazio'. Come posso gestire questa manipolazione verbale senza cedere?",
+                    speaker: "Luca",
+                    avatar: "🧑",
+                    status: "Più consapevole ma spaventato dalla reazione",
+                    options: [
+                        {
+                            text: "Resta fermo sui fatti e non farti trascinare nel senso di colpa. Se la reazione del partner è rabbia o manipolazione invece che ascolto, significa che non c'è rispetto per te.",
+                            nextNode: "confrontation",
+                            empathyChange: 20,
+                            unlockedTerms: ["confini personali", "gaslighting"]
+                        }
+                    ]
+                },
+                confrontation: {
+                    text: "Hai ragione. Ho provato a cedere per evitare discussioni, ma mi sto annullando come persona. Devo pretendere che i miei limiti vengano rispettati, anche a costo di chiudere la relazione se la manipolazione continua.",
+                    speaker: "Luca",
+                    avatar: "🧑",
+                    status: "Determinato ed emotivamente saldo",
+                    options: [
+                        {
+                            text: "Esatto, Luca. L'amore sano si basa sul rispetto e sul consenso reciproco di entrambi, non sul controllo e sul senso di colpa. Sei sulla strada giusta.",
+                            nextNode: "end_good",
+                            empathyChange: 20,
+                            unlockedTerms: ["confini personali", "love bombing"]
+                        }
+                    ]
+                },
+                end_good: {
+                    text: "Grazie per avermi aperto gli occhi e avermi dato le parole per capire cosa stava succedendo. Mi sento finalmente lucido e pronto ad agire per il mio benessere.",
+                    speaker: "Luca",
+                    avatar: "🧑",
+                    status: "Sollevato e grato",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                },
+                end_bad: {
+                    text: "Forse ho solo esagerato a parlarne... Spero solo che le cose migliorino da sole. Grazie comunque per il tempo.",
+                    speaker: "Luca",
+                    avatar: "🧑",
+                    status: "Depresso e rassegnato",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            id: "adults_elena",
+            title: "Esplorazione e Sicurezza (Salute e Kink)",
+            category: "Salute & Prevenzione",
+            description: "Elena e il partner vogliono esplorare pratiche kink e sex toys. Aiutali a pianificare tutto nel consenso e nella prevenzione medica.",
+            audience: "adults",
+            startNode: "start",
+            nodes: {
+                start: {
+                    text: "Ciao! Volevo un consiglio. Io e il mio partner vorremmo esplorare alcune pratiche <span class='word-highlight' data-word='kink'>kink</span> e introdurre dei <span class='word-highlight' data-word='sex toys'>sex toys</span> nella nostra intimità. Siamo molto complici, ma vogliamo farlo in modo sicuro e proteggendoci sia fisicamente che da possibili infezioni. Come possiamo muoverci?",
+                    speaker: "Elena",
+                    avatar: "👧",
+                    status: "Entusiasta ma desiderosa di fare le cose bene",
+                    options: [
+                        {
+                            text: "Che bello esplorare! Visto che siete una coppia aperta e volete il massimo della sicurezza, potreste semplicemente assumere la <span class='word-highlight' data-word='prep'>PrEP</span> e dimenticarvi di profilattici e altre barriere.",
+                            nextNode: "prep_trap",
+                            empathyChange: -10,
+                            unlockedTerms: ["kink", "prep"]
+                        },
+                        {
+                            text: "È un'ottima iniziativa! Per prima cosa, stabilite confini e parole di sicurezza. Per l'uso di sex toys e pratiche intime, ricordate l'importanza dell'igiene e di barriere come il <span class='word-highlight' data-word='dental dam'>dental dam</span> e i profilattici per evitare scambi di fluidi.",
+                            nextNode: "safety_first",
+                            empathyChange: 20,
+                            unlockedTerms: ["kink", "sex toys", "dental dam"]
+                        },
+                        {
+                            text: "Ma siete sicuri? Il kink non vi sembra una deviazione un po' strana? Forse dovreste parlarne con un terapeuta prima per capire se avete dei problemi da risolvere.",
+                            nextNode: "kink_shame_trap",
+                            empathyChange: -20,
+                            unlockedTerms: ["kink"]
+                        }
+                    ]
+                },
+                prep_trap: {
+                    text: "Ma la <span class='word-highlight' data-word='prep'>PrEP</span> non protegge solo dall'HIV? Esplorando pratiche kink con sex toys condivisi o contatti orali, non rischiamo comunque altre infezioni sessualmente trasmissibili come sifilide, gonorrea o HPV?",
+                    speaker: "Elena",
+                    avatar: "👧",
+                    status: "Dubbiosa e prudente",
+                    options: [
+                        {
+                            text: "Hai assolutamente ragione, scusami. La PrEP protegge solo dal virus dell'HIV. Per tutte le altre IST servono barriere fisiche come profilattici, dighe dentali e pellicole protettive per i giocattoli sessuali.",
+                            nextNode: "safety_first",
+                            empathyChange: 20,
+                            unlockedTerms: ["prep", "dental dam"]
+                        },
+                        {
+                            text: "Ma no, con le moderne terapie e lavando bene i giocattoli non si corre alcun rischio reale, non siate ansiosi.",
+                            nextNode: "end_bad",
+                            empathyChange: -15,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                kink_shame_trap: {
+                    text: "Non credo che abbiamo dei problemi... Ci amiamo e vogliamo solo esplorare nuove fantasie in modo consensuale. Il kink, se vissuto nel rispetto di entrambi, è una normale espressione della sessualità. Speravo in un atteggiamento meno giudicante.",
+                    speaker: "Elena",
+                    avatar: "👧",
+                    status: "Delusa e sulla difensiva",
+                    options: [
+                        {
+                            text: "Chiedo scusa, Elena. Ho risposto basandomi su un pregiudizio. Il kink è una preferenza sessuale sanissima se basata su consenso ed empatia. Parliamo di come farlo in sicurezza.",
+                            nextNode: "safety_first",
+                            empathyChange: 15,
+                            unlockedTerms: ["kink"]
+                        },
+                        {
+                            text: "Sì, ma io parlavo per il vostro bene. Certi giochi possono nascondere traumi irrisolti. Pensateci.",
+                            nextNode: "end_bad",
+                            empathyChange: -20,
+                            unlockedTerms: []
+                        }
+                    ]
+                },
+                safety_first: {
+                    text: "Sì, infatti volevamo proprio capire l'uso pratico del <span class='word-highlight' data-word='dental dam'>dental dam</span> per il sesso orale e se condividere i <span class='word-highlight' data-word='sex toys'>sex toys</span> possa trasmettere batteri. Come si usano in sicurezza?",
+                    speaker: "Elena",
+                    avatar: "👧",
+                    status: "Molto attenta",
+                    options: [
+                        {
+                            text: "La diga dentale si stende sulla vulva o sulla zona anale durante il cunnilingus o l'anilingus. Per i sex toys condivisi, basta coprirli con un profilattico nuovo e cambiarlo quando passate da una persona all'altra.",
+                            nextNode: "expert_guidance",
+                            empathyChange: 20,
+                            unlockedTerms: ["dental dam", "sex toys"]
+                        }
+                    ]
+                },
+                expert_guidance: {
+                    text: "Consigli utilissimi e pratici! E se volessimo approfondire questi temi con una figura professionale, per chiarire dubbi sulla salute sessuale e comunicare ancora meglio in coppia?",
+                    speaker: "Elena",
+                    avatar: "👧",
+                    status: "Rassicurata e propositiva",
+                    options: [
+                        {
+                            text: "Potete rivolgervi a una <span class='word-highlight' data-word='consulenza sessuologica'>consulenza sessuologica</span> con un sessuologo clinico. È il professionista perfetto per accompagnare le coppie nell'esplorazione dei desideri in totale sicurezza.",
+                            nextNode: "end_good",
+                            empathyChange: 20,
+                            unlockedTerms: ["consulenza sessuologica"]
+                        }
+                    ]
+                },
+                end_good: {
+                    text: "Grazie di cuore! Ora abbiamo una mappa chiara di come esplorare la nostra intimità in modo divertente, intimo e soprattutto protetto dal punto di vista medico.",
+                    speaker: "Elena",
+                    avatar: "👧",
+                    status: "Molto felice e grata",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                },
+                end_bad: {
+                    text: "Forse non siamo ancora pronti per tutta questa burocrazia della sicurezza. Meglio rimandare l'esplorazione a tempi migliori. Grazie comunque.",
+                    speaker: "Elena",
+                    avatar: "👧",
+                    status: "Rassegnata e demotivata",
+                    options: [
+                        {
+                            text: "Completa lo scenario",
+                            nextNode: "finish",
+                            empathyChange: 0,
+                            isEnd: true
+                        }
+                    ]
+                }
+            }
         }
     ]
 };
@@ -1026,7 +1660,7 @@ const badgesData = [
     {
         id: "all_scenarios",
         title: "Esploratore delle Relazioni",
-        description: "Completa tutti e 4 gli scenari educativi disponibili.",
+        description: "Completa tutti gli 8 scenari educativi disponibili.",
         icon: '<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M25 25 L75 25 C75 45 65 60 50 60 C35 60 25 45 25 25 Z" /><path d="M25 32 C15 32 15 45 25 48" /><path d="M75 32 C85 32 85 45 75 48" /><path d="M50 60 L50 75" stroke-width="6" /><path d="M35 75 C45 75 55 75 65 75" /><path d="M30 82 C42 80 58 80 70 82" /><circle cx="42" cy="38" r="3" fill="currentColor" stroke="none" /><circle cx="58" cy="38" r="3" fill="currentColor" stroke="none" /><path d="M47 46 Q50 50 53 46" stroke-width="4" /></svg>'
     }
 ];
@@ -2134,6 +2768,87 @@ const quizQuestions = {
             "Offre protezione contro le gravidanze e le IST per tutti i rapporti successivi all'assunzione."
         ],
         correct: 1
+    },
+    "demisessualità": {
+        question: "La demisessualità è definita come l'attrazione sessuale che si manifesta solo:",
+        options: [
+            "Durante il periodo dell'adolescenza.",
+            "Dopo aver stabilito un forte legame emotivo o intellettuale con una persona.",
+            "In modo virtuale tramite chat e social media."
+        ],
+        correct: 1
+    },
+    "lubrificante": {
+        question: "Quale tipo di lubrificante deve essere evitato con i profilattici in lattice?",
+        options: [
+            "I lubrificanti a base acquosa.",
+            "I lubrificanti a base siliconica.",
+            "I lubrificanti a base oleosa (es. vaselina, oli per massaggi)."
+        ],
+        correct: 2
+    },
+    "love bombing": {
+        question: "Cosa caratterizza la dinamica manipolatoria del 'Love Bombing'?",
+        options: [
+            "Un'iniziale pioggia eccessiva di attenzioni e regali per creare dipendenza emotiva.",
+            "L'evitamento totale del contatto fisico all'inizio della relazione.",
+            "La condivisione equa di tutte le spese di coppia."
+        ],
+        correct: 0
+    },
+    "gaslighting": {
+        question: "Il 'Gaslighting' è una manipolazione psicologica che mira a:",
+        options: [
+            "Illuminare meglio le stanze durante l'intimità.",
+            "Far dubitare la vittima della propria memoria, percezione o sanità mentale.",
+            "Esprimere in modo sano le proprie gelosie."
+        ],
+        correct: 1
+    },
+    "confini personali": {
+        question: "Nelle relazioni, stabilire dei 'Confini Personali' serve a:",
+        options: [
+            "Isolarsi completamente dal partner per non soffrire.",
+            "Creare barriere insormontabili che impediscono l'intimità.",
+            "Comunicare e proteggere i propri limiti fisici ed emotivi per il proprio benessere."
+        ],
+        correct: 2
+    },
+    "kink": {
+        question: "Nelle pratiche e preferenze sessuali definite 'Kink', qual è l'elemento essenziale?",
+        options: [
+            "Che avvengano in segreto senza che l'altro lo sappia.",
+            "Il consenso informato, la sicurezza e la negoziazione condivisa tra i partner.",
+            "L'assenza totale di qualsiasi regola o accordo."
+        ],
+        correct: 1
+    },
+    "prep": {
+        question: "La PrEP (Profilassi Pre-Esposizione) è una terapia farmacologica che:",
+        options: [
+            "Riduce del 99% il rischio di contrarre l'HIV prima di un'esposizione.",
+            "Cura definitivamente l'AIDS una volta contratto.",
+            "Protegge contemporaneamente da tutte le IST (gonorrea, sifilide, ecc.)."
+        ],
+        correct: 0
+    },
+    "dental dam": {
+        question: "A cosa serve il Dental Dam (diga dentale) durante i rapporti intimi?",
+        options: [
+            "A proteggere i denti da possibili traumi fisici.",
+            "Come barriera di lattice per fare sesso orale (vulvare o anale) in sicurezza prevenendo le IST.",
+            "Come pulire i giocattoli sessuali dopo l'utilizzo."
+        ],
+        correct: 1
+    },
+    "consulenza sessuologica": {
+        question: "Il ruolo del professionista nella Consulenza Sessuologica è di:",
+        options: [
+            "Giudicare moralmente i comportamenti sessuali delle coppie.",
+            "Prescrivere farmaci contraccettivi obbligatori.",
+            "Fornire supporto e terapia clinica per dubbi, ansie, disfunzioni o benessere intimo."
+        ],
+        correct: 2
     }
 };
 
@@ -2267,8 +2982,8 @@ function checkBadges() {
         appState.unlockedBadges.add("quiz_master");
     }
 
-    // 4. Esploratore delle Relazioni (Completa tutti e 4 gli scenari)
-    if (appState.completedScenarios.size >= 4) {
+    // 4. Esploratore delle Relazioni (Completa tutti e 8 gli scenari)
+    if (appState.completedScenarios.size >= 8) {
         appState.unlockedBadges.add("all_scenarios");
     }
 }
