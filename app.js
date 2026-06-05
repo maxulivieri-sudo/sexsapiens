@@ -40,13 +40,13 @@ const glossaryData = {
         example: "Luca fa parte dello spettro asessuale: sperimenta relazioni romantiche profonde e intime, ma non sente il desiderio di compiere atti sessuali.",
         locked: true
     },
-    "panessuale": {
-        id: "panessuale",
-        title: "Panessualità",
+    "pansessuale": {
+        id: "pansessuale",
+        title: "Pansessualità",
         category: "orientation",
         categoryName: "Orientamento",
         definition: "Attrazione estetica, romantica e/o sessuale verso una persona, indipendentemente dal suo genere o sesso biologico. Spesso riassunto con 'attrazione verso le persone al di là del genere'.",
-        example: "Chi si identifica come panessuale può provare attrazione verso uomini, donne, persone non-binarie o trans senza che il genere sia un fattore discriminante.",
+        example: "Chi si identifica come pansessuale può provare attrazione verso uomini, donne, persone non-binarie o trans senza che il genere sia un fattore discriminante.",
         locked: true
     },
     "fantasia sessuale": {
