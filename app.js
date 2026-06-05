@@ -2052,6 +2052,47 @@ function trackAnalyticsEvent(eventName, params = {}) {
     }
 }
 
+// GESTIONE CONSENSO COOKIE (GDPR)
+function setupCookieConsent() {
+    const banner = document.getElementById("cookie-banner");
+    const btnAccept = document.getElementById("btn-cookie-accept");
+    const btnReject = document.getElementById("btn-cookie-reject");
+    
+    if (!banner || !btnAccept || !btnReject) return;
+    
+    const consent = localStorage.getItem("sexsapiens_cookie_consent");
+    
+    // Se non è mai stato espresso il consenso, mostra il banner
+    if (!consent) {
+        banner.classList.remove("hidden");
+    }
+    
+    btnAccept.addEventListener("click", () => {
+        localStorage.setItem("sexsapiens_cookie_consent", "accepted");
+        // Rimuove il blocco di Google Analytics
+        window['ga-disable-G-V53G68EN0C'] = false;
+        
+        // Se Analytics è presente, lo re-inizializziamo per sicurezza
+        if (typeof gtag === "function") {
+            gtag("config", "G-V53G68EN0C", {
+                'anonymize_ip': true
+            });
+        }
+        
+        banner.classList.add("hidden");
+        playAudioEffect("click");
+    });
+    
+    btnReject.addEventListener("click", () => {
+        localStorage.setItem("sexsapiens_cookie_consent", "rejected");
+        // Forza la disattivazione di Analytics
+        window['ga-disable-G-V53G68EN0C'] = true;
+        
+        banner.classList.add("hidden");
+        playAudioEffect("click");
+    });
+}
+
 // ==========================================================================
 // MODULO SINTESI SONORA (WEB AUDIO API) E GESTIONE AUDIO
 // ==========================================================================
@@ -2195,6 +2236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupTargetSelectors();
     initStandaloneQuizListeners();
     initMythGameListeners();
+    setupCookieConsent();
     
     // Rendi visibili i trofei sulla home all'avvio
     renderTrophies();

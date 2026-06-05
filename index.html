@@ -31,6 +31,11 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V53G68EN0C"></script>
     <script>
+      // Disabilita il tracciamento all'avvio se il consenso non è stato ancora concesso
+      if (localStorage.getItem('sexsapiens_cookie_consent') !== 'accepted') {
+        window['ga-disable-G-V53G68EN0C'] = true;
+      }
+
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
@@ -654,6 +659,22 @@
                     <strong>Esempio pratico:</strong>
                     <p id="modal-term-example">Un esempio di come si usa o si manifesta questo termine...</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner Cookie / GDPR -->
+    <div id="cookie-banner" class="cookie-banner hidden">
+        <div class="cookie-content glass-panel">
+            <div class="cookie-text">
+                <h3>🍪 Rispetto della tua privacy</h3>
+                <p>
+                    Sexsapiens utilizza il salvataggio locale (LocalStorage) per tenere traccia dei tuoi trofei e progressi. Usiamo inoltre Google Analytics (con IP anonimizzato) per capire in modo aggregato quali sezioni del sito sono più visitate. Puoi scegliere di accettare tutti i cookie o limitare il tracciamento ai soli dati tecnici necessari.
+                </p>
+            </div>
+            <div class="cookie-buttons">
+                <button id="btn-cookie-accept" class="btn-primary">Accetta tutti</button>
+                <button id="btn-cookie-reject" class="btn-secondary">Solo necessari</button>
             </div>
         </div>
     </div>
