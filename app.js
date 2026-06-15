@@ -381,6 +381,42 @@ const glossaryData = {
         definition: "Un percorso di supporto e consulenza condotto da uno specialista (sessuologo) per affrontare dubbi, ansie, disfunzioni corporee o blocchi relazionali legati alla sfera dell'affettività e della sessualità.",
         example: "Rivolgersi ad un sessuologo clinico per sciogliere i dubbi legati al calo del desiderio in un momento di forte stress.",
         locked: true
+    },
+    "zone erogene": {
+        id: "zone-erogene",
+        title: "Zone Erogene",
+        category: "health",
+        categoryName: "Salute & Prevenzione",
+        definition: "Aree del corpo particolarmente sensibili alla stimolazione tattile, capaci di generare eccitazione o piacere sessuale. Variano da persona a persona e includono, oltre ai genitali, labbra, collo, orecchie, schiena, inner thigh. Esplorarle contribuisce all'auto-conoscenza corporea.",
+        example: "Scoprire attraverso l'esplorazione del proprio corpo quali zone erogene personali rispondono con maggior piacere aiuta a comunicare i propri desideri al partner.",
+        locked: true
+    },
+    "bondage": {
+        id: "bondage",
+        title: "Bondage",
+        category: "desire",
+        categoryName: "Fantasie & Desideri",
+        definition: "La pratica consensuale di limitare i movimenti di una persona usando corde, bende, manette morbide o altri materiali, come parte dell'esplorazione erotica. Fa parte dell'ambito BDSM e richiede sempre una safe word concordata, comunicazione aperta e piena cura del benessere del partner.",
+        example: "Una coppia che esplora il bondage stabilisce in anticipo una parola di sicurezza e segnali non verbali per garantire il comfort e la sicurezza di entrambi in ogni momento.",
+        locked: true
+    },
+    "revenge porn": {
+        id: "revenge-porn",
+        title: "Revenge Porn (Pornovenganza)",
+        category: "relation",
+        categoryName: "Relazioni & Consenso",
+        definition: "La diffusione non consensuale di immagini, video o contenuti intimi di una persona, spesso come atto vendicativo o coercitivo. In Italia è un reato perseguibile penalmente (art. 612-ter c.p.) ed è una grave violazione della privacy, della dignità e del consenso.",
+        example: "Condividere o minacciare di condividere foto intime di un ex partner senza il suo consenso è revenge porn: un crimine punibile con la reclusione fino a 6 anni.",
+        locked: true
+    },
+    "ghosting": {
+        id: "ghosting",
+        title: "Ghosting",
+        category: "relation",
+        categoryName: "Relazioni & Consenso",
+        definition: "Il taglio improvviso e unilaterale di ogni forma di comunicazione con una persona (spesso un partner o una frequentazione) senza spiegazioni, avvertimenti o confronto diretto. Può causare confusione, senso di abbandono e sofferenza emotiva in chi lo subisce.",
+        example: "Dopo settimane di appuntamenti regolari, smettere di rispondere a qualsiasi messaggio senza dare alcuna spiegazione è un esempio di ghosting.",
+        locked: true
     }
 };
 
@@ -2753,8 +2789,13 @@ function renderGlossaryGrid() {
     const grid = document.getElementById("glossary-grid");
     grid.innerHTML = "";
     
-    let terms = Object.values(glossaryData);
-    
+    const seenIds = new Set();
+    let terms = Object.values(glossaryData).filter(t => {
+        if (seenIds.has(t.id)) return false;
+        seenIds.add(t.id);
+        return true;
+    });
+
     // Applica filtro categoria
     if (currentGlossaryCategory !== "all") {
         terms = terms.filter(t => t.category === currentGlossaryCategory);
@@ -3420,6 +3461,42 @@ const quizQuestions = {
             "Verificare la compatibilità sanguigna dei partner."
         ],
         correct: 0
+    },
+    "zone erogene": {
+        question: "Le 'Zone Erogene' sono aree del corpo che:",
+        options: [
+            "Sono identiche per tutte le persone e si limitano ai soli organi genitali.",
+            "Variano da persona a persona e possono generare piacere o eccitazione se stimolate.",
+            "Indicano zone del corpo soggette a malattie sessualmente trasmissibili."
+        ],
+        correct: 1
+    },
+    "bondage": {
+        question: "Nel Bondage, quale elemento è assolutamente indispensabile?",
+        options: [
+            "L'effetto sorpresa: il partner non deve sapere cosa sta per succedere.",
+            "Il consenso esplicito, la comunicazione aperta e una safe word concordata.",
+            "L'uso esclusivo di materiali metallici rigidi per garantire sicurezza."
+        ],
+        correct: 1
+    },
+    "revenge porn": {
+        question: "Il Revenge Porn consiste in:",
+        options: [
+            "Un genere cinematografico di finzione adulta.",
+            "La diffusione non consensuale di immagini o video intimi di una persona, che in Italia è un reato penale.",
+            "Una pratica consensuale tra adulti per esplorare la propria sessualità online."
+        ],
+        correct: 1
+    },
+    "ghosting": {
+        question: "Il 'Ghosting' descrive il comportamento di chi:",
+        options: [
+            "Comunica in modo eccessivo e ossessivo con il partner.",
+            "Interrompe improvvisamente ogni contatto con una persona senza dare spiegazioni.",
+            "Racconta bugie al partner per ottenere attenzioni."
+        ],
+        correct: 1
     }
 };
 
@@ -3884,6 +3961,21 @@ const mythsData = [
         myth: "La PrEP (profilassi pre-esposizione) protegge da tutte le infezioni sessualmente trasmissibili.",
         isMyth: true,
         explanation: "Falso. La PrEP è una terapia preventiva mirata esclusivamente a ridurre la trasmissione del virus dell'HIV. Non protegge in alcun modo da sifilide, clamidia, gonorrea o HPV, per le quali serve il preservativo."
+    },
+    {
+        myth: "È normale provare ansia, vergogna o imbarazzo nei momenti di intimità, soprattutto se si tratta delle prime volte.",
+        isMyth: false,
+        explanation: "Vero. Ansia, imbarazzo e insicurezza durante l'intimità sono esperienze molto comuni e umane, in particolare all'inizio. Non indicano un problema o una disfunzione: riconoscerle, nominarle e comunicarle al partner è un atto di coraggio e la base di un'intimità più autentica."
+    },
+    {
+        myth: "I miei desideri e i miei bisogni possono non coincidere con quelli dell'altra persona.",
+        isMyth: false,
+        explanation: "Vero. Due persone non condividono mai esattamente gli stessi desideri, ritmi o bisogni sessuali e affettivi: è la norma, non l'eccezione. La differenza non è un problema da nascondere, ma uno spazio di dialogo da esplorare con rispetto reciproco e comunicazione aperta."
+    },
+    {
+        myth: "Nella coppia, è normale che uno dei due non sia sempre desideroso di fare sesso nello stesso momento dell'altro.",
+        isMyth: false,
+        explanation: "Vero. Il desiderio sessuale è influenzato da stress, stanchezza, ciclo ormonale, umore e molti altri fattori: rarissimamente due persone sono perfettamente sincronizzate. Gestire queste differenze con empatia e comunicazione rafforza la relazione invece di indebolirla."
     }
 ];
 
