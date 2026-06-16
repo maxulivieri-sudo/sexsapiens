@@ -2233,18 +2233,67 @@ body.high-contrast-mode svg {
     margin-top: 0.5rem;
 }
 
+.words-options-container .quiz-choice-btn {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    width: 100%;
+}
+
+.words-options-container .quiz-choice-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent-magenta);
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+    transform: translateY(-2px);
+}
+
 .words-options-container .quiz-choice-btn.correct-choice {
-    background: rgba(34, 197, 94, 0.1) !important;
+    background: rgba(34, 197, 94, 0.15) !important;
     border-color: #22c55e !important;
-    color: #22c55e !important;
-    box-shadow: 0 0 10px rgba(34, 197, 94, 0.2) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.3) !important;
 }
 
 .words-options-container .quiz-choice-btn.wrong-choice {
-    background: rgba(239, 68, 68, 0.1) !important;
+    background: rgba(239, 68, 68, 0.15) !important;
     border-color: #ef4444 !important;
-    color: #ef4444 !important;
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3) !important;
+}
+
+/* High Contrast Mode for Choice Buttons */
+body.high-contrast-mode .words-options-container .quiz-choice-btn {
+    background: #000000 !important;
+    border: 3px solid #ffffff !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast-mode .words-options-container .quiz-choice-btn:hover {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+body.high-contrast-mode .words-options-container .quiz-choice-btn.correct-choice {
+    border-color: #00ff00 !important;
+    color: #00ff00 !important;
+}
+
+body.high-contrast-mode .words-options-container .quiz-choice-btn.wrong-choice {
+    border-color: #ff0000 !important;
+    color: #ff0000 !important;
 }
 
 .words-explanation-panel {
