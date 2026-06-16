@@ -25,7 +25,7 @@
     <!-- Google Fonts: Outfit per i titoli, Inter per il testo leggibile -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
     <!-- PWA Configurations -->
@@ -88,7 +88,39 @@
                 <button class="nav-link" data-target="glossary">Glossario</button>
                 <button class="nav-link" data-target="quiz-mode">Quiz</button>
                 <button class="nav-link audio-toggle-btn" id="btn-audio-toggle" title="Attiva/Disattiva Audio"></button>
+                <button class="a11y-toggle-btn" id="btn-a11y-toggle" title="Accessibilità ed Inclusività" aria-haspopup="true" aria-expanded="false">
+                    <svg class="doodle-icon-inline" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" style="width: 1.3em; height: 1.3em; vertical-align: middle;">
+                        <circle cx="50" cy="50" r="40" />
+                        <circle cx="50" cy="30" r="8" fill="currentColor" stroke="none" />
+                        <path d="M25 45 Q50 40 75 45" />
+                        <path d="M50 38 L50 65 L35 85 M50 65 L65 85" />
+                    </svg>
+                </button>
             </nav>
+        </div>
+        
+        <!-- Pannello Accessibilità fluttuante -->
+        <div id="a11y-menu-panel" class="a11y-menu-panel glass-panel hidden" aria-label="Opzioni di Accessibilità">
+            <h3>Strumenti di Accessibilità</h3>
+            
+            <div class="a11y-option">
+                <span class="a11y-option-label">Alta leggibilità (dislessia)</span>
+                <button class="a11y-btn-toggle" id="btn-toggle-dyslexia" aria-pressed="false">Disattivo</button>
+            </div>
+            
+            <div class="a11y-option">
+                <span class="a11y-option-label">Contrasto elevato</span>
+                <button class="a11y-btn-toggle" id="btn-toggle-contrast" aria-pressed="false">Disattivo</button>
+            </div>
+            
+            <div class="a11y-option-size">
+                <span class="a11y-option-label" style="display: block; margin-bottom: 0.5rem; text-align: left;">Dimensione testo</span>
+                <div class="a11y-size-buttons">
+                    <button class="a11y-size-btn active" data-size="normal">Normale</button>
+                    <button class="a11y-size-btn" data-size="large">Grande</button>
+                    <button class="a11y-size-btn" data-size="xlarge">Molto Grande</button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -268,6 +300,21 @@
                         <p>Sfida te stesso nel riconoscere le bufale e le verità scientifiche su salute e sessualità.</p>
                         <span class="btn-primary">Sfida i Miti ➔</span>
                     </div>
+                    <!-- Card Le Parole Giuste -->
+                    <div class="selection-card game-card" id="card-play-words">
+                        <div class="card-icon">
+                            <svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M20 25 C40 20 70 20 80 25 C88 28 88 45 80 55 C70 65 40 65 30 70 C28 72 20 78 18 78 C18 78 22 68 25 62 C15 55 12 40 20 25 Z" />
+                              <path d="M40 38 L65 38 M40 48 L60 48" stroke-width="5" />
+                              <path d="M68 62 L85 45 C87 43 90 43 92 45 C94 47 94 50 92 52 L75 69 L68 70 Z" stroke-width="4" fill="var(--accent-magenta)" opacity="0.3" />
+                              <circle cx="38" cy="35" r="2" fill="currentColor" stroke="none" />
+                              <circle cx="58" cy="35" r="2" fill="currentColor" stroke="none" />
+                            </svg>
+                        </div>
+                        <h3>Le Parole Giuste</h3>
+                        <p>Impara a evitare frasi insensibili o escludenti, trovando l'alternativa empatica e corretta.</p>
+                        <span class="btn-primary">Inizia ➔</span>
+                    </div>
                 </div>
             </div>
 
@@ -362,6 +409,62 @@
                 <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
                     <button class="btn-primary" id="btn-restart-myth-game">Gioca Ancora ➔</button>
                     <button class="btn-secondary" id="btn-myths-to-games">Cambia Gioco</button>
+                </div>
+            </div>
+
+            <!-- Schermata Gioco Le Parole Giuste -->
+            <div id="words-game-screen" class="words-game-screen glass-panel hidden">
+                <div class="words-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; width: 100%; flex-wrap: wrap; gap: 10px;">
+                    <button class="btn-secondary" id="btn-back-to-games-words" style="padding: 0.5rem 1rem; font-size: 0.85rem;">⬅ Cambia Gioco</button>
+                    <div class="quiz-score-badge" style="margin-left: auto;">Punti: <span id="words-score">0</span></div>
+                </div>
+
+                <div class="words-game-container" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <span class="quiz-badge" id="words-progress" style="align-self: flex-start;">Frase 1 di 8</span>
+                    
+                    <!-- Area Bolla di Chat da Correggere -->
+                    <div class="chat-container" style="width: 100%; margin: 0.5rem 0;">
+                        <div class="chat-bubble received">
+                            <span class="chat-sender">Qualcuno dice:</span>
+                            <p id="words-wrong-text">"Ma è solo una fase, dai, vedrai che ti passa."</p>
+                        </div>
+                    </div>
+
+                    <p class="words-prompt-text" style="font-weight: 700; color: var(--accent-cyan); text-align: left; margin: 0.5rem 0;">Come puoi rispondergli in modo empatico ed inclusivo?</p>
+
+                    <!-- Opzioni di Risposta Empatica -->
+                    <div id="words-options-container" class="words-options-container" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                        <!-- Bottoni opzioni generati via JS -->
+                    </div>
+
+                    <!-- Spiegazione Didattica (Nascosta inizialmente) -->
+                    <div id="words-explanation-panel" class="words-explanation-panel hidden glass-panel" style="margin-top: 1.5rem; padding: 1.5rem; border: 2px solid var(--border-color); border-radius: 12px; text-align: left;">
+                        <div class="explanation-status" id="words-explanation-status" style="font-size: 1.2rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.8rem;">ESATTO!</div>
+                        <h4 style="color: var(--accent-magenta); margin-top: 0; margin-bottom: 0.5rem; font-size: 1.1rem;">Perché è importante?</h4>
+                        <p id="words-explanation-text" style="font-size: 0.9rem; color: var(--text-color); line-height: 1.5; margin-bottom: 1rem;">Spiegazione didattica...</p>
+                        <button class="btn-primary" id="btn-next-word">Prossima Frase ➔</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schermata Risultati Gioco Le Parole Giuste -->
+            <div id="words-game-results" class="words-game-results glass-panel hidden" style="text-align: center; padding: 2rem;">
+                <div class="quiz-result-icon" id="words-result-icon" style="display: flex; justify-content: center; align-items: center; margin-bottom: 1.5rem;">
+                    <!-- Icona del risultato dinamica -->
+                </div>
+                <h2 id="words-result-title" style="font-size: 2rem; margin-top: 1rem;">Risultato Gioco</h2>
+                <p id="words-result-subtitle" style="color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+                    Valutazione delle tue capacità comunicative...
+                </p>
+
+                <div class="score-display-box glass-panel" style="max-width: 250px; margin: 2rem auto; padding: 1.5rem; border-radius: 15px;">
+                    <span style="font-size: 0.9rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 0.5rem;">Punteggio Finale</span>
+                    <span id="words-final-score" style="font-size: 2.5rem; font-weight: 800; color: var(--accent-magenta);">0/0</span>
+                </div>
+
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                    <button class="btn-primary" id="btn-restart-words">Rigioca ➔</button>
+                    <button class="btn-secondary" id="btn-words-to-games">Cambia Gioco</button>
                 </div>
             </div>
 
@@ -666,6 +769,32 @@
                 <div class="term-example-box">
                     <strong>Esempio pratico:</strong>
                     <p id="modal-term-example">Un esempio di come si usa o si manifesta questo termine...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal per la condivisione del Trofeo -->
+    <div class="modal-overlay hidden" id="share-modal">
+        <div class="modal-content glass-panel" style="max-width: 480px; text-align: center;">
+            <button class="modal-close" id="btn-close-share-modal">×</button>
+            <div class="modal-header">
+                <span class="term-badge" style="background: var(--accent-gradient);">Trofeo Sbloccato!</span>
+                <h2>Condividi il tuo Traguardo</h2>
+            </div>
+            <div class="modal-body" style="padding-top: 1rem;">
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                    Ecco la tua cartolina trofeo personalizzata. Puoi scaricarla come immagine o condividerla direttamente sui tuoi social in modo 100% anonimo.
+                </p>
+                
+                <!-- Anteprima dell'immagine generata -->
+                <div class="share-card-preview-container" style="margin: 1rem 0; display: flex; justify-content: center;">
+                    <img id="share-card-image" src="" alt="Anteprima Trofeo" style="max-width: 100%; border-radius: 12px; box-shadow: 0 4px 20px rgba(236, 72, 153, 0.3); height: auto; border: 3px solid var(--border-color);" />
+                </div>
+                
+                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap;">
+                    <button class="btn-primary" id="btn-share-card-native">Condividi 🔗</button>
+                    <button class="btn-secondary" id="btn-download-card">Scarica PNG 💾</button>
                 </div>
             </div>
         </div>

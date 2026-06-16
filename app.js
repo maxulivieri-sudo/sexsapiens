@@ -2027,6 +2027,12 @@ const badgesData = [
         title: "Debunker di Falsi Miti",
         description: "Rispondi correttamente a 10 affermazioni su 10 nel gioco 'Mito o Realtà?'.",
         icon: '<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20 C40 15 60 15 80 20 C80 45 75 70 50 85 C25 70 20 45 20 20 Z" fill="var(--accent-cyan)" opacity="0.3" /><path d="M20 20 C40 15 60 15 80 20 C80 45 75 70 50 85 C25 70 20 45 20 20 Z" /><path d="M35 50 L45 60 L65 40" stroke-width="7" /></svg>'
+    },
+    {
+        id: "empathetic_communicator",
+        title: "Comunicatore Empatico",
+        description: "Rispondi correttamente a 8 frasi su 8 nel gioco 'Le parole giuste'.",
+        icon: '<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 25 C40 20 70 20 80 25 C88 28 88 45 80 55 C70 65 40 65 30 70 C28 72 20 78 18 78 C18 78 22 68 25 62 C15 55 12 40 20 25 Z" fill="var(--accent-magenta)" opacity="0.3" /><path d="M20 25 C40 20 70 20 80 25 C88 28 88 45 80 55 C70 65 40 65 30 70 C28 72 20 78 18 78 C18 78 22 68 25 62 C15 55 12 40 20 25 Z" /><path d="M40 38 L65 38 M40 48 L60 48" stroke-width="5" /><path d="M68 62 L85 45 L92 45 L92 52 L75 69 L68 70 Z" stroke-width="4" /></svg>'
     }
 ];
 
@@ -2129,10 +2135,119 @@ function setupCookieConsent() {
     });
 }
 
+// GESTIONE ACCESSIBILITÀ (A11Y)
+function setupAccessibility() {
+    const btnTogglePanel = document.getElementById("btn-a11y-toggle");
+    const panel = document.getElementById("a11y-menu-panel");
+    const btnDyslexia = document.getElementById("btn-toggle-dyslexia");
+    const btnContrast = document.getElementById("btn-toggle-contrast");
+    const sizeBtns = document.querySelectorAll(".a11y-size-btn");
+
+    if (!btnTogglePanel || !panel) return;
+
+    // 1. Mostra/Nascondi pannello A11y
+    btnTogglePanel.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isHidden = panel.classList.contains("hidden");
+        if (isHidden) {
+            panel.classList.remove("hidden");
+            btnTogglePanel.setAttribute("aria-expanded", "true");
+        } else {
+            panel.classList.add("hidden");
+            btnTogglePanel.setAttribute("aria-expanded", "false");
+        }
+        playAudioEffect("click");
+    });
+
+    // Chiudi il pannello se si clicca fuori
+    document.addEventListener("click", (e) => {
+        if (!panel.classList.contains("hidden") && !panel.contains(e.target) && e.target !== btnTogglePanel) {
+            panel.classList.add("hidden");
+            btnTogglePanel.setAttribute("aria-expanded", "false");
+        }
+    });
+
+    // Impedisci la chiusura cliccando dentro il pannello
+    panel.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
+
+    // 2. Toggle Font Dislessia
+    const isDyslexia = localStorage.getItem("sexsapiens_a11y_dyslexia") === "true";
+    if (isDyslexia) {
+        document.body.classList.add("dyslexia-mode");
+        if (btnDyslexia) {
+            btnDyslexia.setAttribute("aria-pressed", "true");
+            btnDyslexia.textContent = "Attivo";
+        }
+    }
+    if (btnDyslexia) {
+        btnDyslexia.addEventListener("click", () => {
+            const active = document.body.classList.toggle("dyslexia-mode");
+            localStorage.setItem("sexsapiens_a11y_dyslexia", active ? "true" : "false");
+            btnDyslexia.setAttribute("aria-pressed", active ? "true" : "false");
+            btnDyslexia.textContent = active ? "Attivo" : "Disattivo";
+            playAudioEffect("click");
+        });
+    }
+
+    // 3. Toggle Contrasto Elevato
+    const isContrast = localStorage.getItem("sexsapiens_a11y_contrast") === "true";
+    if (isContrast) {
+        document.body.classList.add("high-contrast-mode");
+        if (btnContrast) {
+            btnContrast.setAttribute("aria-pressed", "true");
+            btnContrast.textContent = "Attivo";
+        }
+    }
+    if (btnContrast) {
+        btnContrast.addEventListener("click", () => {
+            const active = document.body.classList.toggle("high-contrast-mode");
+            localStorage.setItem("sexsapiens_a11y_contrast", active ? "true" : "false");
+            btnContrast.setAttribute("aria-pressed", active ? "true" : "false");
+            btnContrast.textContent = active ? "Attivo" : "Disattivo";
+            playAudioEffect("click");
+        });
+    }
+
+    // 4. Regolazione Dimensione Testo
+    const savedSize = localStorage.getItem("sexsapiens_a11y_size") || "normal";
+    applyTextSize(savedSize);
+    
+    sizeBtns.forEach(btn => {
+        const size = btn.getAttribute("data-size");
+        if (size === savedSize) {
+            sizeBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+        }
+        
+        btn.addEventListener("click", () => {
+            sizeBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            applyTextSize(size);
+            localStorage.setItem("sexsapiens_a11y_size", size);
+            playAudioEffect("click");
+        });
+    });
+
+    function applyTextSize(size) {
+        document.body.classList.remove("text-large", "text-xlarge");
+        if (size === "large") {
+            document.body.classList.add("text-large");
+        } else if (size === "xlarge") {
+            document.body.classList.add("text-xlarge");
+        }
+    }
+}
+
 // ==========================================================================
 // MODULO SINTESI SONORA (WEB AUDIO API) E GESTIONE AUDIO
 // ==========================================================================
 let audioCtx = null;
+
+// VARIABILI GLOBALI PER LA CONDIVISIONE SOCIAL
+let currentShareBlob = null;
+let currentShareTitle = "";
 
 function initAudio() {
     if (!audioCtx) {
@@ -2273,6 +2388,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initStandaloneQuizListeners();
     initMythGameListeners();
     setupCookieConsent();
+    setupAccessibility();
+    initShareModalListeners();
+    initWordsGameListeners();
     
     // Rendi visibili i trofei sulla home all'avvio
     renderTrophies();
@@ -3679,10 +3797,210 @@ function renderTrophies() {
             <span style="display: inline-flex; align-items: center; font-size:0.75rem; margin-top: 10px; font-weight:700; color: ${isUnlocked ? 'var(--accent-magenta)' : 'var(--text-muted)'}">
                 ${isUnlocked ? openLock + ' SBLOCCATO' : closedLock + ' BLOCCATO'}
             </span>
+            ${isUnlocked ? `
+            <button class="btn-share-trophy btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.72rem; margin-top: 12px; border-radius: 15px; width: 100%; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 5px;" data-badge-id="${badge.id}">
+                Condividi Trofeo 🔗
+            </button>
+            ` : ''}
         `;
         
         trophyGrid.appendChild(item);
     });
+
+    // Aggiungi click listener per la condivisione dei trofei
+    const shareBtns = trophyGrid.querySelectorAll(".btn-share-trophy");
+    shareBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const badgeId = btn.getAttribute("data-badge-id");
+            generateTrophyCard(badgeId);
+            playAudioEffect("click");
+        });
+    });
+}
+
+// GESTIONE CONDIVISIONE CARD TROFEI
+function initShareModalListeners() {
+    const btnCloseShareModal = document.getElementById("btn-close-share-modal");
+    const shareModal = document.getElementById("share-modal");
+    const btnDownload = document.getElementById("btn-download-card");
+    const btnShareNative = document.getElementById("btn-share-card-native");
+
+    if (btnCloseShareModal && shareModal) {
+        btnCloseShareModal.addEventListener("click", () => {
+            shareModal.classList.add("hidden");
+            playAudioEffect("click");
+        });
+        
+        // Chiudi se clicchi fuori dal modale
+        shareModal.addEventListener("click", (e) => {
+            if (e.target === shareModal) {
+                shareModal.classList.add("hidden");
+            }
+        });
+    }
+
+    if (btnDownload) {
+        btnDownload.addEventListener("click", () => {
+            const img = document.getElementById("share-card-image");
+            if (!img || !img.src) return;
+            
+            const a = document.createElement("a");
+            a.href = img.src;
+            a.download = `${currentShareTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            playAudioEffect("click");
+        });
+    }
+
+    if (btnShareNative) {
+        // Aggiorna il testo del bottone in base al supporto nativo
+        if (navigator.share) {
+            btnShareNative.textContent = "Condividi 🔗";
+        } else {
+            btnShareNative.textContent = "Copia Testo 📋";
+        }
+
+        btnShareNative.addEventListener("click", () => {
+            if (navigator.share && currentShareBlob) {
+                const file = new File([currentShareBlob], `${currentShareTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`, { type: "image/png" });
+                navigator.share({
+                    title: currentShareTitle,
+                    text: `Ho sbloccato il trofeo "${currentShareTitle}" su Sexsapiens.it! Vieni a metterti alla prova anche tu!`,
+                    url: "https://sexsapiens.it",
+                    files: [file]
+                }).catch((err) => {
+                    console.error("Errore nella condivisione nativa:", err);
+                });
+            } else {
+                // Fallback: copia testo negli appunti
+                const textToCopy = `Ho sbloccato il trofeo "${currentShareTitle}" su Sexsapiens.it! Mettiti alla prova anche tu: https://sexsapiens.it`;
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        alert("Testo di condivisione copiato negli appunti!");
+                    }).catch(err => {
+                        console.error("Errore copia appunti:", err);
+                    });
+            }
+            playAudioEffect("click");
+        });
+    }
+}
+
+function generateTrophyCard(badgeId) {
+    const badge = badgesData.find(b => b.id === badgeId);
+    if (!badge) return;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 1080;
+    canvas.height = 1080;
+    const ctx = canvas.getContext("2d");
+
+    // 1. Sfondo
+    ctx.fillStyle = "#120a24";
+    ctx.fillRect(0, 0, 1080, 1080);
+
+    // Effetto sfumatura radiale al centro
+    const radialGrad = ctx.createRadialGradient(540, 540, 100, 540, 540, 600);
+    radialGrad.addColorStop(0, "rgba(168, 85, 247, 0.15)");
+    radialGrad.addColorStop(1, "rgba(18, 10, 36, 0)");
+    ctx.fillStyle = radialGrad;
+    ctx.fillRect(0, 0, 1080, 1080);
+
+    // 2. Cornice neon fucsia arrotondata
+    ctx.strokeStyle = "#ec4899";
+    ctx.lineWidth = 10;
+    ctx.shadowColor = "#ec4899";
+    ctx.shadowBlur = 30;
+    
+    const pad = 60;
+    ctx.beginPath();
+    ctx.roundRect(pad, pad, 1080 - 2 * pad, 1080 - 2 * pad, 40);
+    ctx.stroke();
+    
+    // Resetta shadow
+    ctx.shadowBlur = 0;
+
+    // 3. Testo Intestazione
+    ctx.fillStyle = "#06b6d4";
+    ctx.font = "800 36px 'Outfit', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("SEXSAPIENS.IT", 540, 150);
+
+    ctx.fillStyle = "#a855f7";
+    ctx.font = "600 24px 'Inter', sans-serif";
+    ctx.fillText("✨ NUOVO TROFEO SBLOCCATO ✨", 540, 200);
+
+    // 4. Carica e disegna l'SVG dell'icona
+    const svgString = badge.icon;
+    let cleanSvg = svgString;
+    if (!cleanSvg.includes('xmlns="http://www.w3.org/2000/svg"')) {
+        cleanSvg = cleanSvg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+    // Adatta colori per render su Canvas scuro
+    cleanSvg = cleanSvg.replaceAll('currentColor', '#00ffff');
+    cleanSvg = cleanSvg.replaceAll('var(--accent-magenta)', '#ec4899');
+    cleanSvg = cleanSvg.replaceAll('var(--accent-cyan)', '#06b6d4');
+    
+    const blob = new Blob([cleanSvg], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    
+    img.onload = function() {
+        ctx.drawImage(img, 390, 260, 300, 300);
+        URL.revokeObjectURL(url);
+        
+        // 5. Titolo del Badge
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "800 56px 'Outfit', sans-serif";
+        ctx.fillText(badge.title.toUpperCase(), 540, 650);
+
+        // 6. Descrizione del Badge
+        ctx.fillStyle = "#94a3b8"; // slate-400
+        ctx.font = "500 28px 'Inter', sans-serif";
+        
+        wrapText(ctx, badge.description, 540, 730, 800, 42);
+
+        // 7. Footer
+        ctx.fillStyle = "#64748b"; // slate-500
+        ctx.font = "600 24px 'Inter', sans-serif";
+        ctx.fillText("Mettiti alla prova ed esplora la sessualità senza tabù.", 540, 920);
+        
+        // Assegna anteprima immagine
+        const dataUrl = canvas.toDataURL("image/png");
+        document.getElementById("share-card-image").src = dataUrl;
+        
+        // Salva blob
+        canvas.toBlob(blobPng => {
+            currentShareBlob = blobPng;
+            currentShareTitle = badge.title;
+        }, "image/png");
+
+        document.getElementById("share-modal").classList.remove("hidden");
+    };
+    img.src = url;
+}
+
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+    let currentY = y;
+
+    for (let n = 0; n < words.length; n++) {
+        let testLine = line + words[n] + ' ';
+        let metrics = context.measureText(testLine);
+        let testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, currentY);
+            line = words[n] + ' ';
+            currentY += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+    context.fillText(line, x, currentY);
 }
 
 // ==========================================================================
@@ -4220,6 +4538,298 @@ function resetSimulatorViews() {
     document.getElementById("simulator-layout-area").classList.add("hidden");
     document.getElementById("myth-game-screen").classList.add("hidden");
     document.getElementById("myth-game-results").classList.add("hidden");
+    document.getElementById("words-game-screen").classList.add("hidden");
+    document.getElementById("words-game-results").classList.add("hidden");
     document.getElementById("quiz-card").classList.add("hidden");
 }
 
+
+
+// ==========================================================================
+// DATABASE E LOGICA GIOCO "LE PAROLE GIUSTE"
+// ==========================================================================
+
+const wordsGameData = [
+    {
+        wrong: "Sei bisessuale? Sicura sia una cosa vera e non solo una fase di passaggio?",
+        options: [
+            "Grazie per avermelo confidato. Dimmi di più, come vivi questa parte della tua sessualità?",
+            "Capisco, ma alla fine devi pur scegliere una parte prima o poi, no?",
+            "Ah ok, ma per me è indifferente, alla fine ognuno fa quel che vuole basta non sbandierarlo."
+        ],
+        explanation: "Ritenere la bisessualità 'una fase' o 'una scelta obbligata' invalida l'orientamento sessuale reale di una persona. Una risposta accogliente valida il vissuto personale senza imporre definizioni esterne."
+    },
+    {
+        wrong: "Che bello che vi sposate! E chi è il marito nella coppia?",
+        options: [
+            "Che bello che vi sposate! Raccontatemi, come state pianificando di festeggiare il vostro matrimonio?",
+            "Auguri! Ma in casa chi è che comanda e prende le decisioni?",
+            "Congratulazioni! Ma alla fine chi fa la parte maschile?"
+        ],
+        explanation: "Applicare i ruoli di genere della coppia eterosessuale alle coppie formate da persone dello stesso sesso è eteronormativo e cancella le peculiarità relazionali. È più rispettoso interessarsi alla coppia senza proiettare stereotipi di ruoli."
+    },
+    {
+        wrong: "Sì, va beh, ma all'anagrafe ti chiami ancora col tuo vecchio nome, quindi per ora uso quello.",
+        options: [
+            "Capisco che i tempi burocratici siano lunghi. Quali sono i pronomi e il nome con cui ti senti a tuo agio e vuoi che ti chiami?",
+            "Ma se uso il tuo nuovo nome nei documenti ufficiali faccio un errore, per questo preferisco l'anagrafico.",
+            "Non mi sembra una cosa così grave, alla fine un nome vale l'altro finché non cambi i documenti."
+        ],
+        explanation: "Usare il vecchio nome di una persona transgender (deadnaming) invalida la sua identità di genere ed è fonte di forte disagio psicologico. Il nome d'elezione e i pronomi scelti vanno rispettati a prescindere dallo stato burocratico."
+    },
+    {
+        wrong: "Se mi amassi davvero, lo faresti anche se stasera non ti va molto.",
+        options: [
+            "Capisco perfettamente, non c'è fretta. Possiamo semplicemente stare vicini o fare altro, la cosa importante è stare bene entrambi.",
+            "Va bene, però sappi che mi sento rifiutato e frustrato quando ti comporti così.",
+            "Ok, ma allora la prossima volta decidiamo noi quando farlo, altrimenti non è giusto."
+        ],
+        explanation: "Associare il sesso alla prova dell'amore o usare il senso di colpa per superare la riluttanza del partner è una violazione del consenso e una forma di pressione emotiva (coercizione). Il consenso dev'essere sempre libero, entusiasta e revocabile in qualsiasi momento."
+    },
+    {
+        wrong: "Hai sempre mal di testa. Secondo me non ti interesso più sessualmente.",
+        options: [
+            "Ho notato che ultimamente abbiamo meno intimità fisica. Mi piacerebbe capire se c'è qualcosa di cui hai bisogno o se stai vivendo un periodo di stress.",
+            "Ormai stiamo insieme solo come coinquilini, se non cambiamo marcia finisce male.",
+            "Vorrà dire che aspetterò che ti passi la voglia di stare da sola, ma non so quanto durerà."
+        ],
+        explanation: "Attaccare il partner o interpretare una diminuzione del desiderio come un rifiuto personale aumenta la distanza e la colpevolizzazione. Aprire un dialogo empatico e non giudicante aiuta a individuare fattori come stress, fatica o bisogni relazionali insoddisfatti."
+    },
+    {
+        wrong: "Non ti piace il sesso? Secondo me è solo perché non hai ancora trovato la persona giusta.",
+        options: [
+            "Grazie per averlo condiviso. Lo spettro dell'asessualità è ampio; come descriveresti il modo in cui vivi le relazioni e l'affettività?",
+            "Ma ti sei fatta controllare i livelli ormonali? Potrebbe essere un problema di salute.",
+            "Magari è solo un periodo di stress, vedrai che quando ti innamorerai cambierai idea."
+        ],
+        explanation: "L'asessualità è un orientamento sessuale valido e stabile, non una patologia, un problema ormonale o una transizione in attesa della 'persona giusta'. Rispettare e comprendere la diversità degli spettri affettivi e relazionali è fondamentale."
+    },
+    {
+        wrong: "Ah, sei gay? Vabbè, basta che non ci provi con me, eh!",
+        options: [
+            "Grazie per esserti aperto con me. Apprezzo molto la tua fiducia.",
+            "Capisco, ma mi raccomando, non andarlo a dire in giro che siamo amici sennò la gente mormora.",
+            "Ma dai, che bello! Ora dobbiamo assolutamente andare a fare shopping insieme!"
+        ],
+        explanation: "La frase 'basta che non ci provi con me' riflette una presunzione egocentrica e pregiudizi omofobici, implicando che le persone LGBTQ+ siano incapaci di gestire i confini relazionali. Un coming out va accolto con riconoscimento della fiducia dimostrata."
+    },
+    {
+        wrong: "Ami più di una persona? Questa è solo una scusa per tradire senza sentirti in colpa!",
+        options: [
+            "È una dinamica relazionale interessante. Come riuscite a gestire la comunicazione, il tempo e il consenso tra tutti voi?",
+            "Io non ci riuscirei mai, per me l'amore vero è solo tra due persone ed il resto è solo egoismo.",
+            "Sì, ma alla fine c'è sempre un partner principale che ami di più e gli altri sono secondari."
+        ],
+        explanation: "Il poliamore etico e la non-monogamia consensuale si basano sulla trasparenza, sul consenso esplicito di tutti i partecipanti e sull'onestà. Distinguersi dal tradimento (che implica menzogna e violazione dei patti) richiede accordi chiari e rispetto reciproco."
+    }
+];
+
+let wordsGameState = {
+    currentIndex: 0,
+    score: 0,
+    activeAnswerEnabled: true,
+    phrases: []
+};
+
+function initWordsGameListeners() {
+    // Selettore Card "Le parole giuste"
+    const cardWords = document.getElementById("card-play-words");
+    if (cardWords) {
+        cardWords.addEventListener("click", () => {
+            playAudioEffect("click");
+            startWordsGame();
+        });
+    }
+
+    // Prossima frase
+    const btnNext = document.getElementById("btn-next-word");
+    if (btnNext) {
+        btnNext.addEventListener("click", () => {
+            playAudioEffect("click");
+            wordsGameState.currentIndex++;
+            if (wordsGameState.currentIndex < wordsGameState.phrases.length) {
+                renderWordsQuestion();
+            } else {
+                showWordsResults();
+            }
+        });
+    }
+
+    // Rigioca
+    const btnRestart = document.getElementById("btn-restart-words");
+    if (btnRestart) {
+        btnRestart.addEventListener("click", () => {
+            playAudioEffect("click");
+            startWordsGame();
+        });
+    }
+
+    // Torna alla selezione giochi
+    const btnBack = document.getElementById("btn-back-to-games-words");
+    if (btnBack) {
+        btnBack.addEventListener("click", () => {
+            playAudioEffect("click");
+            document.getElementById("words-game-screen").classList.add("hidden");
+            document.getElementById("game-mode-selection-screen").classList.remove("hidden");
+        });
+    }
+
+    const btnBackResults = document.getElementById("btn-words-to-games");
+    if (btnBackResults) {
+        btnBackResults.addEventListener("click", () => {
+            playAudioEffect("click");
+            document.getElementById("words-game-results").classList.add("hidden");
+            document.getElementById("game-mode-selection-screen").classList.remove("hidden");
+        });
+    }
+}
+
+function startWordsGame() {
+    wordsGameState.currentIndex = 0;
+    wordsGameState.score = 0;
+    wordsGameState.phrases = shuffleArray([...wordsGameData]);
+
+    document.getElementById("game-mode-selection-screen").classList.add("hidden");
+    document.getElementById("words-game-screen").classList.remove("hidden");
+    document.getElementById("words-game-results").classList.add("hidden");
+
+    renderWordsQuestion();
+}
+
+function renderWordsQuestion() {
+    wordsGameState.activeAnswerEnabled = true;
+    const currentP = wordsGameState.phrases[wordsGameState.currentIndex];
+
+    // Reset spiegazione
+    document.getElementById("words-explanation-panel").classList.add("hidden");
+
+    // Popola testi
+    document.getElementById("words-progress").textContent = `Frase ${wordsGameState.currentIndex + 1} di ${wordsGameState.phrases.length}`;
+    document.getElementById("words-score").textContent = wordsGameState.score;
+    document.getElementById("words-wrong-text").textContent = `"${currentP.wrong}"`;
+
+    // Opzioni
+    const optionsContainer = document.getElementById("words-options-container");
+    optionsContainer.innerHTML = "";
+
+    const optionsWithStatus = currentP.options.map((opt, index) => {
+        return {
+            text: opt,
+            isCorrect: index === 0
+        };
+    });
+
+    const shuffledOptions = shuffleArray(optionsWithStatus);
+
+    shuffledOptions.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "quiz-choice-btn";
+        btn.textContent = opt.text;
+        
+        btn.addEventListener("click", () => {
+            if (!wordsGameState.activeAnswerEnabled) return;
+            wordsGameState.activeAnswerEnabled = false;
+
+            const allBtns = optionsContainer.querySelectorAll(".quiz-choice-btn");
+            allBtns.forEach(b => {
+                b.style.pointerEvents = "none";
+                b.style.opacity = "0.5";
+            });
+
+            const expPanel = document.getElementById("words-explanation-panel");
+            const expStatus = document.getElementById("words-explanation-status");
+            const expText = document.getElementById("words-explanation-text");
+
+            expPanel.classList.remove("hidden");
+            expText.textContent = currentP.explanation;
+
+            if (opt.isCorrect) {
+                btn.classList.add("correct-choice");
+                btn.style.opacity = "1";
+                expStatus.textContent = "ESATTO! 🎉";
+                expStatus.className = "explanation-status correct";
+                wordsGameState.score++;
+                document.getElementById("words-score").textContent = wordsGameState.score;
+                playAudioEffect("success");
+            } else {
+                btn.classList.add("wrong-choice");
+                btn.style.opacity = "1";
+                expStatus.textContent = "INSENSIBILE ❌";
+                expStatus.className = "explanation-status wrong";
+                
+                // Evidenzia corretta per chiarezza didattica
+                allBtns.forEach(b => {
+                    const matchedOpt = shuffledOptions.find(o => o.text === b.textContent);
+                    if (matchedOpt && matchedOpt.isCorrect) {
+                        b.classList.add("correct-choice");
+                        b.style.opacity = "1";
+                    }
+                });
+                
+                playAudioEffect("error");
+            }
+            
+            // Focus sul tasto Prossima Frase
+            setTimeout(() => {
+                document.getElementById("btn-next-word").focus();
+            }, 100);
+        });
+
+        optionsContainer.appendChild(btn);
+    });
+}
+
+function showWordsResults() {
+    document.getElementById("words-game-screen").classList.add("hidden");
+    document.getElementById("words-game-results").classList.remove("hidden");
+
+    const score = wordsGameState.score;
+    const total = wordsGameState.phrases.length;
+    const ratio = score / total;
+
+    document.getElementById("words-final-score").textContent = `${score}/${total}`;
+
+    const iconBox = document.getElementById("words-result-icon");
+    const titleBox = document.getElementById("words-result-title");
+    const subtitleBox = document.getElementById("words-result-subtitle");
+
+    let iconSVG = "";
+    let titleText = "";
+    let subtitleText = "";
+
+    if (ratio === 1) {
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-magenta);"><path d="M20 25 C40 20 70 20 80 25 C88 28 88 45 80 55 C70 65 40 65 30 70 C28 72 20 78 18 78 C18 78 22 68 25 62 C15 55 12 40 20 25 Z" fill="var(--accent-magenta)" opacity="0.3" /><path d="M20 25 C40 20 70 20 80 25 C88 28 88 45 80 55 C70 65 40 65 30 70 C28 72 20 78 18 78 C18 78 22 68 25 62 C15 55 12 40 20 25 Z" /><circle cx="38" cy="35" r="2" fill="currentColor" stroke="none" /><circle cx="58" cy="35" r="2" fill="currentColor" stroke="none" /><path d="M44 48 Q50 54 56 48" stroke-width="4" /></svg>`;
+        titleText = "Comunicatore Eccellente!";
+        subtitleText = "Favoloso! Sai sempre scegliere le parole giuste per esprimere vicinanza, rispetto ed empatia, abbattendo ogni pregiudizio omo-bi-transfobico.";
+        
+        // Sblocca il nuovo badge
+        if (!appState.unlockedBadges.has("empathetic_communicator")) {
+            appState.unlockedBadges.add("empathetic_communicator");
+            saveStateToLocalStorage();
+            renderTrophies();
+            trackAnalyticsEvent("unlock_badge", { badge_id: "empathetic_communicator", badge_title: "Comunicatore Empatico" });
+        }
+    } else if (ratio >= 0.7) {
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-cyan);"><path d="M50 12 L62 38 L90 40 L68 58 L75 85 L50 70 L25 85 L32 58 L10 40 L38 38 Z" /><circle cx="42" cy="48" r="3" fill="currentColor" stroke="none" /><circle cx="58" cy="48" r="3" fill="currentColor" stroke="none" /><path d="M46 56 Q50 61 54 56" stroke-width="4" /></svg>`;
+        titleText = "Comunicatore Attento!";
+        subtitleText = "Ottimo intuito! Hai scelto risposte altamente inclusive ed empatiche. Rivedi i dettagli didattici per eliminare del tutto le microaggressioni.";
+    } else if (ratio >= 0.5) {
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-violet);"><path d="M50 82 C50 82 15 55 15 35 C15 20 30 15 50 32 C70 15 85 20 85 35 C85 55 50 82 50 82 Z" /></svg>`;
+        titleText = "Comunicazione da affinare!";
+        subtitleText = "Buona sensibilità, ma alcune frasi giudicanti ti sono sfuggite. Rifletti su come alcune espressioni comuni possano ferire anche senza volerlo.";
+    } else {
+        iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--text-muted);"><path d="M15 50 L85 50 M15 57 L85 57" stroke-width="4" /><rect x="25" y="30" width="50" height="40" rx="5" /></svg>`;
+        titleText = "Parole da ri-calibrare!";
+        subtitleText = "Le parole che usiamo hanno un peso enorme sulle relazioni. Gioca di nuovo e leggi con attenzione le spiegazioni per comprendere l'impatto dei cliché.";
+    }
+
+    iconBox.innerHTML = iconSVG;
+    titleBox.textContent = titleText;
+    subtitleBox.textContent = subtitleText;
+
+    trackAnalyticsEvent("complete_words_game", {
+        score: score,
+        total_questions: total,
+        score_ratio: ratio
+    });
+}

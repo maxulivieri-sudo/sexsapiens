@@ -1902,3 +1902,382 @@ footer {
         justify-content: center;
     }
 }
+
+/* ==========================================================================
+   STILI DI ACCESSIBILITÀ (A11Y)
+   ========================================================================== */
+.a11y-toggle-btn {
+    font-size: 1.1rem !important;
+    padding: 0.5rem !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important;
+    width: 38px;
+    height: 38px;
+    margin-left: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.a11y-toggle-btn:hover {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: var(--accent-magenta);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+}
+
+.a11y-toggle-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.a11y-menu-panel {
+    position: absolute;
+    top: 75px;
+    right: 20px;
+    width: 290px;
+    padding: 1.5rem;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(6, 182, 212, 0.15);
+    background: rgba(24, 15, 48, 0.96);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    animation: fadeInA11y 0.2s ease-out forwards;
+}
+
+.a11y-menu-panel.hidden {
+    display: none !important;
+}
+
+.a11y-menu-panel h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-family: var(--font-title);
+    color: var(--accent-cyan);
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+    text-align: left;
+}
+
+.a11y-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.a11y-option-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.a11y-btn-toggle {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.a11y-btn-toggle[aria-pressed="true"] {
+    background: var(--accent-cyan);
+    color: #120a24;
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
+}
+
+.a11y-option-size {
+    border-top: 1px dashed rgba(255, 255, 255, 0.05);
+    padding-top: 0.8rem;
+}
+
+.a11y-size-buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: 0.4rem;
+}
+
+.a11y-size-btn {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.4rem 0.3rem;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.a11y-size-btn.active {
+    background: var(--accent-magenta);
+    color: white;
+    border-color: var(--accent-magenta);
+    box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
+}
+
+@keyframes fadeInA11y {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Evidenziazione per navigazione tastiera (Focus visibile) */
+.a11y-toggle-btn:focus,
+.nav-link:focus,
+.btn-primary:focus,
+.btn-secondary:focus,
+.term-card:focus,
+.game-card:focus,
+.quiz-choice-btn:focus,
+.myth-btn:focus,
+.a11y-btn-toggle:focus,
+.a11y-size-btn:focus,
+button:focus,
+a:focus {
+    outline: 3px solid var(--accent-cyan) !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 10px rgba(6, 182, 212, 0.6) !important;
+}
+
+/* Override Font Alta Leggibilità (Dislessia) */
+body.dyslexia-mode {
+    font-family: 'Atkinson Hyperlegible', sans-serif !important;
+}
+
+body.dyslexia-mode h1,
+body.dyslexia-mode h2,
+body.dyslexia-mode h3,
+body.dyslexia-mode h4,
+body.dyslexia-mode h5,
+body.dyslexia-mode h6,
+body.dyslexia-mode button,
+body.dyslexia-mode span,
+body.dyslexia-mode p,
+body.dyslexia-mode a,
+body.dyslexia-mode li,
+body.dyslexia-mode input,
+body.dyslexia-mode textarea {
+    font-family: 'Atkinson Hyperlegible', sans-serif !important;
+}
+
+/* Dimensionamento Testo */
+body.text-large {
+    font-size: 1.15rem;
+}
+body.text-large h1, body.text-large .hero-title { font-size: 3rem !important; }
+body.text-large h2 { font-size: 2.2rem !important; }
+body.text-large h3 { font-size: 1.6rem !important; }
+body.text-large p, body.text-large button, body.text-large span, body.text-large li { font-size: 1.05rem !important; }
+
+body.text-xlarge {
+    font-size: 1.3rem;
+}
+body.text-xlarge h1, body.text-xlarge .hero-title { font-size: 3.4rem !important; }
+body.text-xlarge h2 { font-size: 2.5rem !important; }
+body.text-xlarge h3 { font-size: 1.9rem !important; }
+body.text-xlarge p, body.text-xlarge button, body.text-xlarge span, body.text-xlarge li { font-size: 1.18rem !important; }
+
+/* Contrasto Elevato (High Contrast Mode) */
+body.high-contrast-mode {
+    background-color: #000000 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast-mode .bg-gradient-glow {
+    display: none !important;
+}
+
+body.high-contrast-mode .glass-panel,
+body.high-contrast-mode header,
+body.high-contrast-mode footer,
+body.high-contrast-mode .a11y-menu-panel,
+body.high-contrast-mode .modal-content {
+    background: #000000 !important;
+    border: 3px solid #ffffff !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast-mode h1, 
+body.high-contrast-mode h2, 
+body.high-contrast-mode h3, 
+body.high-contrast-mode h4,
+body.high-contrast-mode .selector-heading,
+body.high-contrast-mode .hero-title {
+    color: #00ffff !important; /* Cyan puro ad altissimo contrasto */
+    text-shadow: none !important;
+}
+
+body.high-contrast-mode .text-gradient {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+    color: #ff00ff !important; /* Magenta puro ad altissimo contrasto */
+}
+
+body.high-contrast-mode .btn-primary {
+    background: #000000 !important;
+    border: 3px solid #ff00ff !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast-mode .btn-primary:hover {
+    background: #ff00ff !important;
+    color: #000000 !important;
+    font-weight: 800;
+}
+
+body.high-contrast-mode .btn-secondary {
+    background: #000000 !important;
+    border: 3px solid #ffffff !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast-mode .btn-secondary:hover {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-weight: 800;
+}
+
+body.high-contrast-mode .a11y-size-btn.active {
+    background: #ff00ff !important;
+    color: #000000 !important;
+    border-color: #ff00ff !important;
+}
+
+body.high-contrast-mode .a11y-btn-toggle[aria-pressed="true"] {
+    background: #00ffff !important;
+    color: #000000 !important;
+    border-color: #00ffff !important;
+}
+
+body.high-contrast-mode .nav-link {
+    color: #ffffff !important;
+    opacity: 0.8;
+}
+
+body.high-contrast-mode .nav-link.active {
+    color: #00ffff !important;
+    opacity: 1;
+    border-bottom: 3px solid #00ffff !important;
+}
+
+body.high-contrast-mode .doodle-logo-svg,
+body.high-contrast-mode .doodle-icon,
+body.high-contrast-mode svg {
+    color: #ffffff !important;
+    filter: drop-shadow(0 0 1px #ffffff);
+}
+
+/* ==========================================================================
+   STILI GIOCO "LE PAROLE GIUSTE"
+   ========================================================================== */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.chat-bubble {
+    position: relative;
+    max-width: 85%;
+    padding: 1.2rem 1.5rem;
+    border-radius: 20px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    border: 3px solid var(--text-color);
+}
+
+.chat-bubble.received {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.2);
+    border-bottom-left-radius: 4px;
+    color: var(--text-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.chat-sender {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--accent-magenta);
+    margin-bottom: 0.4rem;
+    letter-spacing: 1px;
+}
+
+.words-options-container {
+    margin-top: 0.5rem;
+}
+
+.words-options-container .quiz-choice-btn.correct-choice {
+    background: rgba(34, 197, 94, 0.1) !important;
+    border-color: #22c55e !important;
+    color: #22c55e !important;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.2) !important;
+}
+
+.words-options-container .quiz-choice-btn.wrong-choice {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: #ef4444 !important;
+    color: #ef4444 !important;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.2) !important;
+}
+
+.words-explanation-panel {
+    background: rgba(18, 10, 36, 0.7);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    animation: fadeInA11y 0.3s ease-out forwards;
+}
+
+.words-explanation-panel.hidden {
+    display: none !important;
+}
+
+.explanation-status {
+    font-size: 1.25rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.explanation-status.correct {
+    color: #22c55e;
+}
+
+.explanation-status.wrong {
+    color: #ef4444;
+}
+
+/* Override contrasto elevato per bolle di chat e spiegazioni */
+body.high-contrast-mode .chat-bubble.received,
+body.high-contrast-mode .words-explanation-panel {
+    background: #000000 !important;
+    border: 3px solid #ffffff !important;
+    color: #ffffff !important;
+}
+
+
