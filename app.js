@@ -2453,23 +2453,6 @@ function setupNavigation() {
         });
     }
 
-    // Binding click per la Privacy Policy
-    const linkPrivacy = document.getElementById("link-privacy");
-    if (linkPrivacy) {
-        linkPrivacy.addEventListener("click", (e) => {
-            e.preventDefault();
-            playAudioEffect("click");
-            showSection("privacy");
-        });
-    }
-
-    const btnPrivacyBack = document.getElementById("btn-privacy-back");
-    if (btnPrivacyBack) {
-        btnPrivacyBack.addEventListener("click", () => {
-            playAudioEffect("click");
-            showSection("home");
-        });
-    }
 
     // Mute/Unmute toggle button binding
     const audioToggleBtn = document.getElementById("btn-audio-toggle");
