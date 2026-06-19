@@ -1,18 +1,65 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512" fill="none" stroke="#120a24">
-    <!-- Cuore -->
-    <path d="M50 85 C50 85 12 58 12 36 C12 18 30 12 50 30 C70 12 88 18 88 36 C88 58 50 85 50 85 Z" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
-    <!-- Divisione Cervello (Emisferi) -->
-    <path d="M50 30 L50 40 M50 72 L50 82" stroke-width="5" stroke-dasharray="2 3" stroke-linecap="round" />
-    <!-- Rughe del Cervello -->
-    <path d="M25 32 Q20 38 28 42" stroke-width="5" stroke-linecap="round" />
-    <path d="M75 32 Q80 38 72 42" stroke-width="5" stroke-linecap="round" />
-    <!-- Occhiali Sapiens -->
-    <circle cx="37" cy="52" r="9" stroke-width="6" />
-    <circle cx="63" cy="52" r="9" stroke-width="6" />
-    <path d="M46 52 Q50 49 54 52" stroke-width="6" stroke-linecap="round" />
-    <!-- Occhi -->
-    <circle cx="37" cy="52" r="3.5" fill="#120a24" stroke="none" />
-    <circle cx="63" cy="52" r="3.5" fill="#120a24" stroke="none" />
-    <!-- Sorriso -->
-    <path d="M44 68 Q50 75 56 68" stroke-width="6" stroke-linecap="round" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="512" height="512" fill="none" stroke="#120a24">
+  <g transform="translate(0, -10)">
+    <!-- Main Heart Brain Outline -->
+    <path d="M 250 375 
+             C 215 375, 120 315, 120 210 
+             C 120 145, 175 125, 225 160 
+             C 238 170, 244 178, 250 185 
+             C 256 178, 262 170, 275 160 
+             C 325 125, 380 145, 380 210 
+             C 380 315, 285 375, 250 375 Z" 
+          stroke-width="8" 
+          stroke-linejoin="round" />
+
+    <!-- Brain Folds -->
+    <!-- Left Lobe Folds -->
+    <path d="M 170 190 Q 145 200 155 225 T 195 230" stroke-width="4" opacity="0.6" stroke-linecap="round" />
+    <path d="M 180 160 Q 145 165 165 190" stroke-width="4" opacity="0.6" stroke-linecap="round" />
+    <path d="M 215 170 Q 190 195 210 220" stroke-width="4" opacity="0.6" stroke-linecap="round" />
+    <path d="M 195 275 Q 155 285 175 315" stroke-width="4" opacity="0.6" stroke-linecap="round" />
+
+    <!-- Right Lobe Folds -->
+    <path d="M 330 190 Q 355 200 345 225 T 305 230" stroke-width="4" opacity="0.6" stroke-linecap="round" />
+    <path d="M 320 160 Q 355 165 335 190" stroke-width="4" opacity="0.6" stroke-linecap="round" />
+    <path d="M 285 170 Q 310 195 290 220" stroke-width="4" opacity="0.6" stroke-linecap="round" />
+    <path d="M 305 275 Q 345 285 325 315" stroke-width="4" opacity="0.6" stroke-linecap="round" />
+
+    <!-- Center Division -->
+    <path d="M 250 192 L 250 225 M 250 335 L 250 365" stroke-width="4" stroke-dasharray="3 5" opacity="0.6" stroke-linecap="round" />
+
+    <!-- Blush Cheeks (Subtle fill) -->
+    <ellipse cx="185" cy="285" rx="14" ry="8" fill="#120a24" stroke="none" opacity="0.2" />
+    <ellipse cx="315" cy="285" rx="14" ry="8" fill="#120a24" stroke="none" opacity="0.2" />
+
+    <!-- Eyes (Outline style with small pupils) -->
+    <circle cx="200" cy="250" r="16" stroke-width="4" />
+    <circle cx="200" cy="250" r="6" fill="#120a24" stroke="none" />
+    
+    <circle cx="300" cy="250" r="16" stroke-width="4" />
+    <circle cx="300" cy="250" r="6" fill="#120a24" stroke="none" />
+
+    <!-- Glasses Frame -->
+    <circle cx="200" cy="250" r="32" stroke-width="6" />
+    <circle cx="300" cy="250" r="32" stroke-width="6" />
+    
+    <!-- Bridge -->
+    <path d="M 232 250 Q 250 245 268 250" stroke-width="6" stroke-linecap="round" />
+
+    <!-- Glasses Temples -->
+    <path d="M 168 250 H 135" stroke-width="6" stroke-linecap="round" />
+    <path d="M 332 250 H 365" stroke-width="6" stroke-linecap="round" />
+
+    <!-- Cute Smile -->
+    <path d="M 236 296 Q 250 310 264 296" stroke-width="5" stroke-linecap="round" />
+  </g>
+
+  <!-- Title Text "Sexsapiens" -->
+  <text x="250" y="445" 
+        font-family="'Outfit', 'Inter', sans-serif" 
+        font-size="44" 
+        font-weight="800" 
+        fill="#120a24" 
+        stroke="none"
+        text-anchor="middle" 
+        letter-spacing="1.5">Sexsapiens</text>
 </svg>
