@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="512" height="512" fill="none" stroke="#120a24">
   <g transform="translate(0, -10)">
-    <!-- Main Heart Brain Outline -->
+    <!-- Main Heart Brain Body Outline -->
     <path d="M 250 375 
-             C 215 375, 120 315, 120 210 
-             C 120 145, 175 125, 225 160 
-             C 238 170, 244 178, 250 185 
-             C 256 178, 262 170, 275 160 
-             C 325 125, 380 145, 380 210 
-             C 380 315, 285 375, 250 375 Z" 
+             C 210 375, 120 315, 120 205 
+             C 120 140, 175 120, 225 155 
+             C 238 165, 244 173, 250 180 
+             C 256 173, 262 165, 275 155 
+             C 325 120, 380 140, 380 205 
+             C 380 315, 290 375, 250 375 Z" 
           stroke-width="8" 
           stroke-linejoin="round" />
 
@@ -25,18 +25,20 @@
     <path d="M 305 275 Q 345 285 325 315" stroke-width="4" opacity="0.6" stroke-linecap="round" />
 
     <!-- Center Division -->
-    <path d="M 250 192 L 250 225 M 250 335 L 250 365" stroke-width="4" stroke-dasharray="3 5" opacity="0.6" stroke-linecap="round" />
+    <path d="M 250 190 L 250 225 M 250 335 L 250 365" stroke-width="4" stroke-dasharray="3 5" opacity="0.6" stroke-linecap="round" />
 
-    <!-- Blush Cheeks (Subtle fill) -->
-    <ellipse cx="185" cy="285" rx="14" ry="8" fill="#120a24" stroke="none" opacity="0.2" />
-    <ellipse cx="315" cy="285" rx="14" ry="8" fill="#120a24" stroke="none" opacity="0.2" />
+    <!-- Blush Cheeks -->
+    <ellipse cx="185" cy="285" rx="14" ry="8" fill="#120a24" stroke="none" opacity="0.15" />
+    <ellipse cx="315" cy="285" rx="14" ry="8" fill="#120a24" stroke="none" opacity="0.15" />
 
-    <!-- Eyes (Outline style with small pupils) -->
-    <circle cx="200" cy="250" r="16" stroke-width="4" />
-    <circle cx="200" cy="250" r="6" fill="#120a24" stroke="none" />
+    <!-- Eyes (Glossy vector style mapped to single-color wireframe) -->
+    <circle cx="200" cy="250" r="22" stroke-width="6" />
+    <circle cx="206" cy="244" r="7.5" fill="#120a24" stroke="none" />
+    <circle cx="192" cy="256" r="3.5" fill="#120a24" stroke="none" />
     
-    <circle cx="300" cy="250" r="16" stroke-width="4" />
-    <circle cx="300" cy="250" r="6" fill="#120a24" stroke="none" />
+    <circle cx="300" cy="250" r="22" stroke-width="6" />
+    <circle cx="294" cy="244" r="7.5" fill="#120a24" stroke="none" />
+    <circle cx="308" cy="256" r="3.5" fill="#120a24" stroke="none" />
 
     <!-- Glasses Frame -->
     <circle cx="200" cy="250" r="32" stroke-width="6" />
