@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="512" height="512" fill="none">
+    <!-- Gradient definition -->
+    <defs>
+        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8b5cf6" />
+            <stop offset="100%" stop-color="#ec4899" />
+        </linearGradient>
+    </defs>
+    <!-- Cuore / Cervello -->
+    <path d="M50 85 C50 85 12 58 12 36 C12 18 30 12 50 30 C70 12 88 18 88 36 C88 58 50 85 50 85 Z" stroke="url(#accentGradient)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Divisione Cervello (Emisferi) -->
+    <path d="M50 30 L50 40 M50 72 L50 82" stroke="#8b5cf6" stroke-width="5" stroke-dasharray="2 3" stroke-linecap="round" />
+    <!-- Rughe del Cervello -->
+    <path d="M25 32 Q20 38 28 42" stroke="#8b5cf6" stroke-width="5" stroke-linecap="round" />
+    <path d="M75 32 Q80 38 72 42" stroke="#8b5cf6" stroke-width="5" stroke-linecap="round" />
+    <!-- Occhiali Sapiens -->
+    <circle cx="37" cy="52" r="9" stroke="#06b6d4" stroke-width="6" />
+    <circle cx="63" cy="52" r="9" stroke="#06b6d4" stroke-width="6" />
+    <path d="M46 52 Q50 49 54 52" stroke="#06b6d4" stroke-width="6" stroke-linecap="round" />
+    <!-- Occhi -->
+    <circle cx="37" cy="52" r="3.5" fill="#06b6d4" stroke="none" />
+    <circle cx="63" cy="52" r="3.5" fill="#06b6d4" stroke="none" />
+    <!-- Sorriso -->
+    <path d="M44 68 Q50 75 56 68" stroke="#ec4899" stroke-width="6" stroke-linecap="round" />
+</svg>
