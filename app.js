@@ -3698,6 +3698,69 @@ const quizQuestions = {
             "Racconta bugie al partner per ottenere attenzioni."
         ],
         correct: 1
+    },
+    "trabocchetto-silenzio": {
+        question: "Durante un rapporto intimo, una persona non dice 'no' ma rimane in silenzio. Questo silenzio equivale a:",
+        options: [
+            "Un consenso implicito: se non protesta, è d'accordo.",
+            "Un segnale ambiguo che va sempre chiarito fermandosi e chiedendo esplicitamente.",
+            "Il consenso dipende da quanto si conosce la persona."
+        ],
+        correct: 1
+    },
+    "trabocchetto-consenso-revoca": {
+        question: "Una persona ha detto 'sì' all'inizio di un rapporto intimo, poi cambia idea a metà. Cosa succede al consenso?",
+        options: [
+            "Rimane valido: aveva già acconsentito all'inizio.",
+            "Decade solo se ci si trova alla prima esperienza insieme.",
+            "Viene revocato immediatamente: il rapporto deve fermarsi senza eccezioni."
+        ],
+        correct: 2
+    },
+    "trabocchetto-acqua": {
+        question: "Fare sesso in acqua (piscina, mare, vasca da bagno) riduce il rischio di gravidanza perché:",
+        options: [
+            "È falso: l'acqua non ha alcun effetto contraccettivo.",
+            "L'acqua fredda rallenta gli spermatozoi.",
+            "Il cloro e il sale distruggono gli spermatozoi."
+        ],
+        correct: 0
+    },
+    "trabocchetto-hpv": {
+        question: "L'HPV (Papillomavirus Umano) riguarda:",
+        options: [
+            "Solo le donne: gli uomini non possono contrarlo.",
+            "Tutti i generi: può causare condilomi, tumori dell'ano, della gola e del pene.",
+            "Solo persone omosessuali o bisessuali."
+        ],
+        correct: 1
+    },
+    "trabocchetto-orale": {
+        question: "Il sesso orale (cunnilingus, fellatio) rispetto alla trasmissione di IST è:",
+        options: [
+            "Completamente sicuro: le IST non si trasmettono per via orale.",
+            "Rischioso solo se si hanno già sintomi visibili.",
+            "Un'attività che può trasmettere herpes, gonorrea, sifilide e HPV: le barriere proteggono."
+        ],
+        correct: 2
+    },
+    "trabocchetto-ubriaco": {
+        question: "Una persona in stato di forte ebbrezza può dare un consenso sessuale valido?",
+        options: [
+            "Sì, se è sveglia e non perde conoscenza.",
+            "No: l'ebbrezza compromette le facoltà cognitive e non permette un consenso libero e consapevole.",
+            "Dipende da quanto ha bevuto e da quanto la si conosce."
+        ],
+        correct: 1
+    },
+    "trabocchetto-ist-coppia": {
+        question: "Due partner che hanno già la stessa IST possono smettere di usare il preservativo tra loro?",
+        options: [
+            "Sì: non possono infettarsi a vicenda con qualcosa che hanno già.",
+            "No: rischiano reinfezione con ceppi diversi, altre IST e, nel caso dell'HIV, varianti resistenti.",
+            "Sì, ma solo se entrambi sono in cura con gli stessi farmaci."
+        ],
+        correct: 1
     }
 };
 
@@ -4362,6 +4425,46 @@ const mythsData = [
         myth: "La PrEP (profilassi pre-esposizione) protegge da tutte le infezioni sessualmente trasmissibili.",
         isMyth: true,
         explanation: "Falso. La PrEP è una terapia preventiva mirata esclusivamente a ridurre la trasmissione del virus dell'HIV. Non protegge in alcun modo da sifilide, clamidia, gonorrea o HPV, per le quali serve il preservativo."
+    },
+    {
+        myth: "Se una persona non dice esplicitamente 'no', il suo silenzio equivale automaticamente al consenso.",
+        isMyth: true,
+        explanation: "Falso. Il consenso deve essere attivo, entusiasta ed esplicito. Il silenzio, la passività o l'assenza di un rifiuto non costituiscono mai un 'sì'. Solo un 'sì' chiaro, libero e consapevole è un consenso valido."
+    },
+    {
+        myth: "Fare sesso in acqua (piscina, vasca, mare) previene le gravidanze indesiderate.",
+        isMyth: true,
+        explanation: "Falso. L'acqua non ha alcuna proprietà contraccettiva o spermicida. Gli spermatozoi sopravvivono nell'acqua e la gravidanza rimane possibile. Inoltre l'acqua può ridurre la lubrificazione naturale e la tenuta del preservativo."
+    },
+    {
+        myth: "L'HPV (Papillomavirus Umano) è un'infezione che riguarda esclusivamente le donne.",
+        isMyth: true,
+        explanation: "Falso. L'HPV colpisce tutti i generi: può causare condilomi genitali, tumori della gola, dell'ano e del pene negli uomini. Il vaccino contro l'HPV è raccomandato a prescindere dal genere."
+    },
+    {
+        myth: "Una volta che il consenso viene dato all'inizio di un rapporto intimo, non può essere ritirato a metà.",
+        isMyth: true,
+        explanation: "Falso. Il consenso è sempre revocabile in qualsiasi momento, senza eccezioni. Se una persona cambia idea e lo comunica (verbalmente o con segnali chiari), il rapporto deve fermarsi immediatamente. Continuare costituisce una violazione."
+    },
+    {
+        myth: "Il sesso orale (cunnilingus, fellatio, anilingus) è completamente privo di rischi per le IST.",
+        isMyth: true,
+        explanation: "Falso. Attraverso il sesso orale si trasmettono herpes, gonorrea, sifilide, HPV e, in misura minore, HIV. Usare barriere protettive (preservativo o dental dam) riduce significativamente il rischio."
+    },
+    {
+        myth: "Se entrambi i partner hanno già la stessa IST, possono smettere di usare il preservativo tra loro.",
+        isMyth: true,
+        explanation: "Falso. Esiste il rischio di reinfection (reinfezione con ceppi diversi dello stesso agente, es. HPV) e di trasmettere altre IST contemporaneamente presenti. Inoltre alcune IST come l'HIV evolvono in varianti: proteggersi rimane importante."
+    },
+    {
+        myth: "Una persona in stato di ebbrezza può dare un consenso sessuale pieno e valido.",
+        isMyth: true,
+        explanation: "Falso. Una persona che ha consumato alcol o sostanze in modo tale da compromettere le proprie facoltà cognitive non è in grado di dare un consenso libero, informato e consapevole. Approfittarne costituisce una violazione grave."
+    },
+    {
+        myth: "Le persone transgender sono sempre attratte dal sesso opposto rispetto al loro genere d'arrivo.",
+        isMyth: true,
+        explanation: "Falso. L'identità di genere (chi sei) e l'orientamento sessuale (chi ti attrae) sono dimensioni completamente indipendenti. Una donna trans può essere lesbica, eterosessuale, bisessuale o asessuale esattamente come qualsiasi altra donna."
     },
     {
         myth: "È normale provare ansia, vergogna o imbarazzo nei momenti di intimità, soprattutto se si tratta delle prime volte.",
