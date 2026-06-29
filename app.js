@@ -2094,6 +2094,65 @@ function trackAnalyticsEvent(eventName, params = {}) {
     }
 }
 
+// ONBOARDING: schermata di benvenuto per nuovi utenti
+function setupOnboarding() {
+    const STORAGE_KEY = "sx_onboarding_done";
+    if (localStorage.getItem(STORAGE_KEY)) return;
+
+    const modal = document.getElementById("onboarding-modal");
+    if (!modal) return;
+    modal.classList.remove("hidden");
+
+    let currentStep = 1;
+    const totalSteps = 3;
+
+    function goToStep(step) {
+        document.querySelectorAll(".onboarding-step").forEach(el => el.classList.remove("active"));
+        document.querySelectorAll(".onboarding-dot").forEach(el => el.classList.remove("active"));
+        const targetStep = modal.querySelector(`.onboarding-step[data-step="${step}"]`);
+        const targetDot = modal.querySelector(`.onboarding-dot[data-dot="${step}"]`);
+        if (targetStep) targetStep.classList.add("active");
+        if (targetDot) targetDot.classList.add("active");
+
+        const btnNext = document.getElementById("btn-onboarding-next");
+        const btnSkip = document.getElementById("btn-onboarding-skip");
+        if (step === totalSteps) {
+            btnNext.style.display = "none";
+            btnSkip.style.display = "none";
+        } else {
+            btnNext.style.display = "";
+            btnSkip.style.display = "";
+        }
+        currentStep = step;
+    }
+
+    function closeOnboarding() {
+        localStorage.setItem(STORAGE_KEY, "1");
+        modal.classList.add("hidden");
+        trackAnalyticsEvent("onboarding_complete");
+    }
+
+    document.getElementById("btn-onboarding-next").addEventListener("click", () => {
+        if (currentStep < totalSteps) goToStep(currentStep + 1);
+    });
+
+    document.getElementById("btn-onboarding-skip").addEventListener("click", () => {
+        trackAnalyticsEvent("onboarding_skip", { step: currentStep });
+        closeOnboarding();
+    });
+
+    document.getElementById("btn-onboarding-start").addEventListener("click", closeOnboarding);
+
+    modal.querySelectorAll(".onboarding-dot").forEach(dot => {
+        dot.addEventListener("click", () => {
+            const step = parseInt(dot.getAttribute("data-dot"), 10);
+            goToStep(step);
+        });
+    });
+
+    trackAnalyticsEvent("onboarding_start");
+}
+
 // GESTIONE CONSENSO COOKIE (GDPR)
 function setupCookieConsent() {
     const banner = document.getElementById("cookie-banner");
@@ -2388,6 +2447,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initStandaloneQuizListeners();
     initMythGameListeners();
     setupCookieConsent();
+    setupOnboarding();
     setupAccessibility();
     initShareModalListeners();
     initWordsGameListeners();
