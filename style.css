@@ -1887,6 +1887,183 @@ footer {
 }
 
 /* ==========================================================================
+   ONBOARDING
+   ========================================================================== */
+#onboarding-modal {
+    z-index: 2000;
+}
+
+.onboarding-content {
+    max-width: 520px;
+    width: 100%;
+    padding: 2.5rem 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: scaleUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Steps */
+.onboarding-step {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.onboarding-step.active {
+    display: flex;
+}
+
+.onboarding-step h2 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.onboarding-step p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0;
+}
+
+/* Step 1 */
+.onboarding-logo {
+    margin-bottom: 0.25rem;
+    filter: drop-shadow(0 0 16px rgba(139, 92, 246, 0.4));
+}
+
+/* Step 2 */
+.onboarding-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    text-align: left;
+}
+
+.onboarding-feature {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 0.75rem;
+    row-gap: 0.15rem;
+    align-items: start;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+}
+
+.onboarding-feature-icon {
+    grid-row: 1 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2px;
+}
+
+.onboarding-feature strong {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-family: var(--font-title);
+}
+
+.onboarding-feature span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Step 3 */
+.onboarding-final-icon {
+    filter: drop-shadow(0 0 14px rgba(6, 182, 212, 0.35));
+    margin-bottom: 0.25rem;
+}
+
+#btn-onboarding-start {
+    margin-top: 0.5rem;
+    padding: 0.8rem 2.5rem;
+    font-size: 1rem;
+}
+
+/* Navigation */
+.onboarding-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.onboarding-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.onboarding-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.onboarding-dot.active {
+    background: var(--accent-violet);
+    width: 22px;
+    border-radius: 4px;
+}
+
+.onboarding-btn-skip {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-family: var(--font-title);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+    transition: color 0.2s ease;
+}
+
+.onboarding-btn-skip:hover {
+    color: var(--text-secondary);
+}
+
+.onboarding-btn-next {
+    background: var(--accent-gradient);
+    border: none;
+    color: #fff;
+    font-family: var(--font-title);
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.onboarding-btn-next:hover {
+    opacity: 0.85;
+    transform: translateX(2px);
+}
+
+@media (max-width: 768px) {
+    .onboarding-content {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .onboarding-step h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ==========================================================================
    BANNER COOKIE / GDPR
    ========================================================================== */
 .cookie-banner {
