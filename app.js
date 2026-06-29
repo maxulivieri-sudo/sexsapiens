@@ -2410,16 +2410,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // GESTIONE NAVIGAZIONE (SPA)
 function setupNavigation() {
+    const nav = document.getElementById("main-nav");
+    const menuToggle = document.getElementById("btn-menu-toggle");
+
+    if (menuToggle && nav) {
+        menuToggle.addEventListener("click", () => {
+            const isOpen = nav.classList.toggle("is-open");
+            menuToggle.classList.toggle("is-open", isOpen);
+            menuToggle.setAttribute("aria-expanded", isOpen);
+        });
+    }
+
     const navLinks = document.querySelectorAll(".nav-link");
     navLinks.forEach(link => {
         link.addEventListener("click", () => {
             const target = link.getAttribute("data-target");
             showSection(target);
+            // Chiudi il menu mobile dopo la selezione
+            if (nav) nav.classList.remove("is-open");
+            if (menuToggle) {
+                menuToggle.classList.remove("is-open");
+                menuToggle.setAttribute("aria-expanded", "false");
+            }
         });
     });
 
     document.getElementById("btn-home").addEventListener("click", () => {
         showSection("home");
+        if (nav) nav.classList.remove("is-open");
+        if (menuToggle) {
+            menuToggle.classList.remove("is-open");
+            menuToggle.setAttribute("aria-expanded", "false");
+        }
     });
 
     // Binding dei click per le CTA (invito all'azione) della Home Page

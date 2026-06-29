@@ -1760,13 +1760,83 @@ footer {
     }
 }
 
+/* HAMBURGER MENU */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 101;
+    flex-shrink: 0;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    transform-origin: center;
+}
+
+.menu-toggle.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.menu-toggle.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
     .header-container {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
+        flex-wrap: wrap;
+        padding: 0.85rem 1rem;
+        position: relative;
     }
-    
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    #main-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.3rem;
+        padding: 0.75rem 0;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        order: 3;
+    }
+
+    #main-nav.is-open {
+        display: flex;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: left;
+        padding: 0.7rem 1rem;
+        border-radius: 12px;
+        font-size: 1rem;
+    }
+
+    .audio-toggle-btn {
+        width: auto !important;
+        align-self: flex-start;
+    }
+
     .hero-title {
         font-size: 2.5rem;
     }
