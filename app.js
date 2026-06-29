@@ -2454,6 +2454,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // Rendi visibili i trofei sulla home all'avvio
     renderTrophies();
+    renderProgressPanel();
     
     // Mostra la home di default
     showSection("home");
@@ -2597,6 +2598,7 @@ function showSection(sectionId) {
     // Se torniamo in Home, rinfreschiamo i trofei
     if (sectionId === "home") {
         renderTrophies();
+    renderProgressPanel();
     }
 }
 
@@ -2933,6 +2935,7 @@ function showEndScreen() {
     checkBadges();
     saveStateToLocalStorage();
     renderTrophies();
+    renderProgressPanel();
 
     // Traccia completamento scenario su Analytics
     trackAnalyticsEvent("complete_scenario", {
@@ -3921,6 +3924,37 @@ function checkBadges() {
     }
 }
 
+function renderProgressPanel() {
+    // Totale termini unici nel glossario (deduplicati per id)
+    const seenForCount = new Set();
+    const totalTerms = Object.values(glossaryData).filter(t => {
+        if (seenForCount.has(t.id)) return false;
+        seenForCount.add(t.id);
+        return true;
+    }).length;
+
+    // Totale scenari (youth + adults)
+    const totalScenarios = (scenariosData.youth?.length || 0) + (scenariosData.adults?.length || 0);
+
+    // Totale badge
+    const totalBadges = badgesData.length;
+
+    const discoveredTerms = appState.unlockedTerms.size;
+    const completedScen = appState.completedScenarios.size;
+    const unlockedBadges = appState.unlockedBadges.size;
+
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    const setW = (id, pct) => { const el = document.getElementById(id); if (el) el.style.width = pct + "%"; };
+
+    set("prog-terms-count",     `${discoveredTerms} / ${totalTerms}`);
+    set("prog-scenarios-count", `${completedScen} / ${totalScenarios}`);
+    set("prog-badges-count",    `${unlockedBadges} / ${totalBadges}`);
+
+    setW("prog-terms-bar",     totalTerms     ? Math.round(discoveredTerms / totalTerms * 100)     : 0);
+    setW("prog-scenarios-bar", totalScenarios ? Math.round(completedScen / totalScenarios * 100)   : 0);
+    setW("prog-badges-bar",    totalBadges    ? Math.round(unlockedBadges / totalBadges * 100)     : 0);
+}
+
 function renderTrophies() {
     const trophyGrid = document.getElementById("trophy-grid");
     if (!trophyGrid) return;
@@ -4349,6 +4383,7 @@ function showStandaloneResults() {
             }
             saveStateToLocalStorage();
             renderTrophies();
+    renderProgressPanel();
         }
     } else if (ratio >= 0.7) {
         // Ottimo punteggio
@@ -4698,6 +4733,7 @@ function showMythResults() {
         }
         saveStateToLocalStorage();
         renderTrophies();
+    renderProgressPanel();
     } else if (ratio >= 0.7) {
         iconSVG = `<svg class="doodle-icon" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px; color: var(--accent-magenta);"><path d="M50 12 L62 38 L90 40 L68 58 L75 85 L50 70 L25 85 L32 58 L10 40 L38 38 Z" /><circle cx="42" cy="48" r="3" fill="currentColor" stroke="none" /><circle cx="58" cy="48" r="3" fill="currentColor" stroke="none" /><path d="M46 56 Q50 61 54 56" stroke-width="4" /></svg>`;
         titleText = "Ottimo cacciatore di bufale!";
@@ -4993,6 +5029,7 @@ function showWordsResults() {
             appState.unlockedBadges.add("empathetic_communicator");
             saveStateToLocalStorage();
             renderTrophies();
+    renderProgressPanel();
             trackAnalyticsEvent("unlock_badge", { badge_id: "empathetic_communicator", badge_title: "Comunicatore Empatico" });
         }
     } else if (ratio >= 0.7) {
